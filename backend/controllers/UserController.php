@@ -9,14 +9,14 @@ class UserController {
 
   public function registerUser($username, $email, $password) {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      throw new ValidationException("Invalid email format");
+      throw new Exception("Invalid email format");
     }
     if (strlen($password) < 8) {
-      throw new ValidationException("Password must be at least 8 characters long");
+      throw new Exception("Password must be at least 8 characters long");
     }
     // password must contain at least one uppercase letter, one lowercase letter, one number, and one special character
     if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/', $password)) {
-      throw new ValidationException("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character");
+      throw new Exception("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character");
     }
   
     try {
@@ -34,6 +34,9 @@ class UserController {
       if ($user && password_verify($password, $user['password_hash'])) {
         session_start();
         $_SESSION['user_id'] = $user['id'];
+
+        echo "User logged in successfully" . "<br>";
+
         return $user;
       }
       return null;
@@ -45,6 +48,9 @@ class UserController {
   public function logoutUser() {
     session_unset();
     session_destroy();
+
+    echo "User logged out successfully" . "<br>";
+
     return;
   }
 
@@ -53,6 +59,14 @@ class UserController {
       return $this->userModel->getUserById($id);
     } catch (PDOException $e) {
       throw new Exception("Failed to get user by id: " . $e->getMessage());
+    }
+  }
+
+  public function deleteUser($id) {
+    try {
+      return $this->userModel->deleteUser($id);
+    } catch (PDOException $e) {
+      throw new Exception("Failed to delete user: " . $e->getMessage());
     }
   }
 }
