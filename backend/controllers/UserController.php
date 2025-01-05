@@ -48,7 +48,7 @@ class UserController {
     return;
   }
 
-  public function getUserById($id) {
+  public function getUserProfile($id) {
     try {
       return $this->userModel->getUserById($id);
     } catch (PDOException $e) {
