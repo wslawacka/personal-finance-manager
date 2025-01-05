@@ -7,13 +7,6 @@ class CategoryModel {
     $this->conn = $db;
   }
 
-  // CREATE TABLE categories (
-  //   id INT AUTO_INCREMENT PRIMARY KEY,
-  //   name VARCHAR(50) UNIQUE NOT NULL,
-  //   user_id INT NOT NULL,
-  //   FOREIGN KEY (user_id) REFERENCES users(id)
-  // );
-
   public function createCategory($name, $user_id) {
     $query = "INSERT INTO categories (name, user_id) VALUES (:name, :user_id)";
     $stmt = $this->conn->prepare($query);
