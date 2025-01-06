@@ -1,14 +1,33 @@
 import '../styles/register.css';
+import axios from 'axios';
 
 function Register() {
+
+  const handleRegister = async (e) => {
+    
+    e.preventDefault();
+    
+    const requestData = JSON.stringify({
+      action: 'register',
+      username: e.target.username.value,
+      email: e.target.email.value,
+      password: e.target.password.value,
+      confirmPassword: e.target.confirmPassword.value,
+    });
+
+    const response = await axios.post("http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/user.php", requestData);
+
+    e.target.reset();
+  }
+
   return (
     <div id="register-container">
-      <form id="register-form">
+      <form id="register-form" onSubmit={handleRegister}>
         <h1>Sign up</h1>
-        <input type="text" placeholder="Username" />
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Password" />
-        <input type="password" placeholder="Confirm Password" />
+        <input type="text" placeholder="Username" name="username" />
+        <input type="email" placeholder="Email" name="email" />
+        <input type="password" placeholder="Password" name="password" />
+        <input type="password" placeholder="Confirm Password" name="confirmPassword" />
         <button type="submit">Sign up</button>
       </form>
     </div>
