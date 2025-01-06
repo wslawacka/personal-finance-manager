@@ -7,6 +7,7 @@ require_once 'models/TransactionModel.php';
 require_once 'controllers/UserController.php';
 require_once 'controllers/CategoryController.php';
 require_once 'controllers/TransactionController.php';
+require_once 'services/EmailService.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -20,5 +21,5 @@ $categoryController = new CategoryController($categoryModel);
 $transactionController = new TransactionController($transactionModel);
 
 //$categoryController->addCategory('Test category', 19);
-$transactionController->addTransaction(19, 4, 'income', 100, '2024-01-01', 'Test transaction');
+// $transactionController->addTransaction(19, 4, 'income', 100, '2024-01-01', 'Test transaction');
 ?>

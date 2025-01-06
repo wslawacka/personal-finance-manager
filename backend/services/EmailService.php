@@ -1,0 +1,45 @@
+<?php
+
+require __DIR__ . '/../../vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+// send email after user registration
+class EmailService {
+  private $mailer;
+
+  public function __construct() {
+    $this->mailer = new PHPMailer(true);
+  }
+
+  // configure mailer for gmail
+  private function configureMailer() {
+    $this->mailer->isSMTP();
+    $this->mailer->Host = 'smtp.gmail.com'; // Replace with your SMTP server
+    $this->mailer->SMTPAuth = true;
+    $this->mailer->Username = 'personalfinancemanager2@gmail.com'; // Replace with your email
+    $this->mailer->Password = 'aldk uvkf iizu iaah'; // Replace with your password
+    $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $this->mailer->Port = 587; // Replace with your SMTP port
+  }
+
+  public function sendWelcomeEmail($email, $username) {
+    try {
+      $this->configureMailer();
+      $this->mailer->setFrom('noreply@financemanager.com', 'Personal Finance Manager');
+      $this->mailer->addAddress($email, $username);
+      $this->mailer->isHTML(true);
+      $this->mailer->Subject = 'Welcome to Personal Finance Manager!';
+      $this->mailer->Body = 'Hello, ' . $username . '! Thank you for registering.';
+
+      return $this->mailer->send();
+    } catch (Exception $e) {
+      echo "Message could not be sent. Mailer Error: {$this->mailer->ErrorInfo}";
+      return false;
+    }
+  }
+
+}
+
+?>
