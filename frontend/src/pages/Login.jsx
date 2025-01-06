@@ -4,39 +4,32 @@ import '../styles/login.css';
 function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
-    const username = e.target.username.value;
-    const password = e.target.password.value;
+
+    const requestData = JSON.stringify({
+      action: 'login',
+      username: e.target.username.value,
+      password: e.target.password.value,
+    });
+
+    const response = await axios.post("http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/user.php", requestData);
     
+    // Try to parse the user data from the response
     try {
-      const response = await axios.post("http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/user.php", 
-        {
-          action: 'login',
-          username,
-          password,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      
-      if (response.data.success) {
-        alert(response.data.message);
-        e.target.reset();
+      const userData = typeof response.data === 'string' 
+        ? JSON.parse(response.data.split('<br>')[1]) // Split by <br> and take the JSON part
+        : response.data;
+
+      if (userData.id) {
+        alert('Login successful!');
+        localStorage.setItem('user', JSON.stringify(userData));
       } else {
-        alert(response.data.message || 'Login failed');
+        alert('Login failed: Invalid credentials');
       }
     } catch (error) {
-      console.error(error);
-      if (error.response) {
-        alert(error.response.data?.error || `Login failed: ${error.response.status}`);
-      } else if (error.request) {
-        alert("Network error - please try again");
-      } else {
-        alert(`Error: ${error.message}`);
-      }
+      alert('Login failed: ' + response.data);
     }
+
+    e.target.reset();
   }
 
   return (
