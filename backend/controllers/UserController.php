@@ -30,18 +30,24 @@ class UserController {
 
   public function loginUser($username, $password) {
     try {
-      $user = $this->userModel->getUserByUsername($username);
-      if ($user && password_verify($password, $user['password_hash'])) {
+        $user = $this->userModel->getUserByUsername($username);
+        
+        // Check if user exists and password is correct
+        if (!$user || !password_verify($password, $user['password_hash'])) {
+            return null;
+        }
+
+        // Login successful - start session and set user data
         session_start();
         $_SESSION['user_id'] = $user['id'];
-
+        
+        // Send success response
+        echo json_encode(['success' => true, 'user' => $user]);
         echo "User logged in successfully" . "<br>";
-
+        
         return $user;
-      }
-      return null;
     } catch (PDOException $e) {
-      throw new Exception("Failed to login user: " . $e->getMessage());
+        throw new Exception("Failed to login user: " . $e->getMessage());
     }
   }
 

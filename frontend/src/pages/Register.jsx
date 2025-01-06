@@ -4,9 +4,11 @@ import axios from 'axios';
 function Register() {
 
   const handleRegister = async (e) => {
-    
+
+    // Prevent the default form submission behavior to avoid page reload
     e.preventDefault();
     
+    // Create the request data
     const requestData = JSON.stringify({
       action: 'register',
       username: e.target.username.value,
@@ -15,8 +17,10 @@ function Register() {
       confirmPassword: e.target.confirmPassword.value,
     });
 
+    // Send the request to the server
     const response = await axios.post("http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/user.php", requestData);
 
+    // Reset the form
     e.target.reset();
   }
 

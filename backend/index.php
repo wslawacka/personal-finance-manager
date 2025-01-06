@@ -17,13 +17,8 @@ $transactionModel = new TransactionModel($db);
 
 $userController = new UserController($userModel);
 $categoryController = new CategoryController($categoryModel);
-// $transactionController = new TransactionController($transactionModel);
+$transactionController = new TransactionController($transactionModel);
 
-//$userController->registerUser('John Doe', 'john@example.com', 'password123W!');
-// $userController->loginUser('John Doe', 'password123W!');
-// $userController->logoutUser();
-
-//$userController->deleteUser(1);
-
-$userController->deleteUser(3); 
+//$categoryController->addCategory('Test category', 19);
+$transactionController->addTransaction(19, 4, 'income', 100, '2024-01-01', 'Test transaction');
 ?>
