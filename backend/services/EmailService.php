@@ -31,7 +31,7 @@ class EmailService {
       $this->mailer->addAddress($email, $username);
       $this->mailer->isHTML(true);
       $this->mailer->Subject = 'Welcome to Personal Finance Manager!';
-      $this->mailer->Body = 'Hello, ' . $username . '! Thank you for registering.';
+      $this->mailer->Body = '<h3>Hello, ' . $username . '!</h3><h4>Thank you for registering.</h4> Your account is now ready to use. <br><br>You can start managing your finances now!<br><br>Best regards,<br>Personal Finance Manager Team<br><br>';
 
       return $this->mailer->send();
     } catch (Exception $e) {
