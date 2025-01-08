@@ -28,11 +28,11 @@ class EmailService {
     try {
       $this->configureMailer();
       $this->mailer->setFrom('noreply@financemanager.com', 'Personal Finance Manager');
+      $this->mailer->clearAddresses();
       $this->mailer->addAddress($email, $username);
       $this->mailer->isHTML(true);
       $this->mailer->Subject = 'Welcome to Personal Finance Manager!';
       $this->mailer->Body = '<h3>Hello, ' . $username . '!</h3><h4>Thank you for registering.</h4> Your account is now ready to use. <br><br>You can start managing your finances now!<br><br>Best regards,<br>Personal Finance Manager Team<br><br>';
-
       return $this->mailer->send();
     } catch (Exception $e) {
       echo "Message could not be sent. Mailer Error: {$this->mailer->ErrorInfo}";
