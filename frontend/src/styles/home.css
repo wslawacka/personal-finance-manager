@@ -1,0 +1,36 @@
+#home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-top: 20px;
+}
+
+#home-container p {
+  font-size: 1.1rem;
+}
+
+#home-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding-top: 12px;
+}
+
+.home-button {
+  padding: 12px 30px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 6px;
+  background-color: #a9ccf2;
+  transition: background-color 0.3s;
+}
+
+.home-button:hover {
+  background-color: #80b3e6;
+}
+
+.home-button:active {
+  background-color: #6699cc;
+}

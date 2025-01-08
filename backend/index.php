@@ -22,8 +22,9 @@ $transactionController = new TransactionController($transactionModel);
 
 //$categoryController->addCategory('Test category', 19);
 // $transactionController->addTransaction(19, 4, 'income', 100, '2024-01-01', 'Test transaction');
-// $emailService = new EmailService();
+$emailService = new EmailService();
 
 // $emailService->sendWelcomeEmail('slawacka@wp.pl', 'Werunia');
 // $emailService->sendWelcomeEmail('kacper.b.ksiazek@gmail.com', 'Kapisio');
+
 ?>

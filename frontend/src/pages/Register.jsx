@@ -1,5 +1,6 @@
 import '../styles/register.css';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function Register() {
 
@@ -26,6 +27,7 @@ function Register() {
 
   return (
     <div id="register-container">
+      <p>Already have an account? <Link className="link" to="/login">Log in</Link></p>
       <form id="register-form" onSubmit={handleRegister}>
         <h1>Sign up</h1>
         <input type="text" placeholder="Username" name="username" />

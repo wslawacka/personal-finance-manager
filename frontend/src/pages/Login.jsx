@@ -1,5 +1,6 @@
 import axios from 'axios';
 import '../styles/login.css';  
+import { Link } from 'react-router-dom';
 
 function Login() {
   const handleLogin = async (e) => {
@@ -39,7 +40,8 @@ function Login() {
 
   return (
     <div id="login-container">
-      <form id="login-form" onSubmit={handleLogin}>
+      <p>Don't have an account? <Link className="link" to="/register">Register</Link></p>
+      <form action="login.php" method="../backend" id="login-form" onSubmit={handleLogin}>
         <h1>Log in</h1>
         <input type="text" name="username" placeholder="Username" />
         <input type="password" name="password" placeholder="Password" />

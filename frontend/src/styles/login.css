@@ -4,6 +4,11 @@
   width: 40%;
   margin: auto;
   border-radius: 2px;
+  text-align: center;
+}
+
+#login-container p {
+  margin-bottom: 12px;
 }
 
 #login-form {
@@ -26,6 +31,7 @@
   font-size: 16px;
   border-radius: 4px;
   border: rgba(0, 0, 0, 0.2) 1px solid;
+  cursor: text;
 }
 
 #login-form input:focus {
@@ -36,7 +42,7 @@
   padding: 6px 10px;
   font-size: 16px;
   border-radius: 2px;
-  background-color: #c3cad5;
+  background-color: #b6c7e3;
   cursor: pointer;
   border: none;
   width: 50%;
