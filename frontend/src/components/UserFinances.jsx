@@ -7,6 +7,7 @@ import TransactionList from './TransactionList';
 function UserFinances({ setIsLoggedIn }) {
   const navigate = useNavigate();
   const [transactions, setTransactions] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const handleLogout = async () => {
     
@@ -40,9 +41,22 @@ function UserFinances({ setIsLoggedIn }) {
     }
   };
 
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get("http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/category.php", {
+        withCredentials: true,
+      });
+      setCategories(response.data);
+      console.log("categories", categories);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
+
   const userId = sessionStorage.getItem('user_id');
   useEffect(() => {
-    fetchTransactions(userId);
+    fetchTransactions();
+    fetchCategories();
   }, [userId]);
   
 
@@ -51,7 +65,7 @@ function UserFinances({ setIsLoggedIn }) {
       <h1>Hello, {sessionStorage.getItem('username')}!</h1>
       {/* total balance */}
       <button className="add-transaction-button" onClick={handleAddTransaction}>Add transaction</button>
-      <TransactionList transactions={transactions} />
+      <TransactionList transactions={transactions} categories={categories} />
 
       <button className="logout-button" onClick={handleLogout}>Log out</button>
     </div>

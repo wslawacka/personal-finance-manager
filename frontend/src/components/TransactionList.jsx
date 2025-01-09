@@ -1,7 +1,7 @@
 import "../styles/transactionList.css";
 
-function TransactionList({ transactions }) {
-  console.log("transactions", transactions);  
+function TransactionList({ transactions, categories }) {
+
   return (
     <div className="transaction-list-container">
     <ul className="transaction-list">
@@ -18,6 +18,13 @@ function TransactionList({ transactions }) {
         </li>
       ))}
     </ul> 
+    <ul className="category-list">
+      {categories.map((category) => (
+        <li className="category-item" key={category.id}>
+          <span className="category-property">{category.name}</span>
+        </li>
+      ))}
+    </ul>
     </div>
   );
 }
