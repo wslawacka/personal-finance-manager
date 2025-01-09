@@ -5,22 +5,21 @@ import '../styles/finances.css';
 import TransactionList from './TransactionList';
 
 function UserFinances({ setIsLoggedIn }) {
+
   const navigate = useNavigate();
   const [transactions, setTransactions] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [totalBalance, setTotalBalance] = useState(0);
 
   const handleLogout = async () => {
-    
     const formData = new FormData();
     formData.append('action', 'logout');
-
     try {
       const response = await axios.post("http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/user.php", formData);
       console.log(response.data);
     } catch (error) {
       console.error('Error logging out:', error);
     }
-
     setIsLoggedIn(false);
     navigate('/login');
   }
@@ -34,8 +33,11 @@ function UserFinances({ setIsLoggedIn }) {
       const response = await axios.get("http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/transaction.php", {
         withCredentials: true, // Ensure cookies are sent with the request
       });
-
       setTransactions(response.data);
+      setTotalBalance(response.data.reduce((total, transaction) => {
+        console.log("transaction", transaction, "total", total);
+        return total + (transaction.type === 'income' ? Number(transaction.amount) : -Number(transaction.amount));
+      }, 0));
     } catch (error) {
       console.error('Error fetching transactions:', error);
     }
@@ -47,7 +49,6 @@ function UserFinances({ setIsLoggedIn }) {
         withCredentials: true,
       });
       setCategories(response.data);
-      console.log("categories", categories);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
@@ -58,12 +59,11 @@ function UserFinances({ setIsLoggedIn }) {
     fetchTransactions();
     fetchCategories();
   }, [userId]);
-  
 
   return (
     <div id="finances-container">
       <h1>Hello, {sessionStorage.getItem('username')}!</h1>
-      {/* total balance */}
+      <p>Total balance: ${totalBalance.toFixed(2)}</p>
       <button className="add-transaction-button" onClick={handleAddTransaction}>Add transaction</button>
       <TransactionList transactions={transactions} categories={categories} />
 
