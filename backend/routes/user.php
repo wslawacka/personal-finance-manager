@@ -30,33 +30,59 @@ $db = $database->getConnection();
 $userModel = new UserModel($db);
 $userController = new UserController($userModel);
 
-// Ensure we can read the input
-$rawData = file_get_contents('php://input');
-$data = json_decode($rawData, true);
-
-// Get the action from the request
-$action = $data['action'] ?? '';
-
-// Handle different actions
-switch ($action) {
-  // Register a new user
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $action = $_POST['action'] ?? null;
+  switch ($action) {
     case 'register':
-      $response = $userController->registerUser($data['username'], $data['email'], $data['password']);
-      echo json_encode($response);
+      $username = $_POST['username'];
+      $email = $_POST['email'];
+      $password = $_POST['password'];
+      $response = $userController->registerUser($username, $email, $password);
+      if ($response['success']) {
+        $response['message'] = 'User registered successfully';
+      } else {
+        $response['message'] = 'User registration failed';
+      }
       break;
-  // Login a user
     case 'login':
-      $response = $userController->loginUser($data['username'], $data['password']);
-      echo json_encode($response);
+      $username = $_POST['username'];
+      $password = $_POST['password'];
+      $response = $userController->loginUser($username, $password);
       break;
-  // Default case - handle invalid action
     default:
-      http_response_code(400);
-      echo json_encode([
-          'error' => 'Invalid action',
-          'received_action' => $action,
-          'received_data' => $data,
-          'raw_input' => $rawData
-      ]);
+      $response = ['error' => 'Invalid request'];
+      break;
+  }
+  echo json_encode($response);
 }
+
+// // Ensure we can read the input
+// $rawData = file_get_contents('php://input');
+// $data = json_decode($rawData, true);
+
+// // Get the action from the request
+// $action = $data['action'] ?? '';
+
+// // Handle different actions
+// switch ($action) {
+//   // Register a new user
+//     case 'register':
+//       $response = $userController->registerUser($data['username'], $data['email'], $data['password']);
+//       echo json_encode($response);
+//       break;
+//   // Login a user
+//     case 'login':
+//       $response = $userController->loginUser($data['username'], $data['password']);
+//       echo json_encode($response);
+//       break;
+//   // Default case - handle invalid action
+//     default:
+//       http_response_code(400);
+//       echo json_encode([
+//           'error' => 'Invalid action',
+//           'received_action' => $action,
+//           'received_data' => $data,
+//           'raw_input' => $rawData
+//       ]);
+// }
 ?> 

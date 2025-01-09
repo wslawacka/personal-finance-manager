@@ -21,11 +21,10 @@ class UserController {
   
     try {
       $user = $this->userModel->createUser($username, $email, $password);
-      return $user;
+      return ['success' => true, 'message' => 'User registered successfully'];
     } catch (PDOException $e) {
-      throw new Exception("Failed to register user: " . $e->getMessage());
+      return ['success' => false, 'message' => 'Failed to register user: ' . $e->getMessage()];
     }
-    return null;
   }
 
   public function loginUser($username, $password) {
