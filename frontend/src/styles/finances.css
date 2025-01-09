@@ -18,6 +18,7 @@
   cursor: pointer;
   border: none;
   transition: background-color 0.2s;
+  margin-top: 20px;
 }
 
 .logout-button:hover {
@@ -25,5 +26,24 @@
 }
 
 .logout-button:active {
+  background-color: rgba(170, 185, 207, 0.6);
+}
+
+.add-transaction-button {
+  margin-bottom: 20px;
+  cursor: pointer;
+  border: none;
+  padding: 8px 16px;
+  font-size: 16px;
+  border-radius: 2px;
+  background-color: #b6c7e3;
+  transition: background-color 0.2s;
+}
+
+.add-transaction-button:hover {
+  background-color: #aab9cf;
+}
+
+.add-transaction-button:active {
   background-color: rgba(170, 185, 207, 0.6);
 }

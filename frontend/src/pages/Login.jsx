@@ -28,6 +28,7 @@ function Login() {
       const username = response.data.username;
       console.log("username", username);
       sessionStorage.setItem('username', username);
+      sessionStorage.setItem('user_id', response.data.user_id);
 
       e.target.reset();
 

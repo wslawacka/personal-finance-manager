@@ -1,0 +1,13 @@
+.transaction-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.transaction-item {
+  font-size: 1.1rem;
+}
+
+.transaction-property {
+  /* display: inline-block; */
+  margin-right: 10px;
+}

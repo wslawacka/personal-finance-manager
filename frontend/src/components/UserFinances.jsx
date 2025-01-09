@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../styles/finances.css';
 import TransactionList from './TransactionList';
 
 function UserFinances({ setIsLoggedIn }) {
   const navigate = useNavigate();
+  const [transactions, setTransactions] = useState([]);
 
   const handleLogout = async () => {
     
@@ -25,22 +27,31 @@ function UserFinances({ setIsLoggedIn }) {
   const handleAddTransaction = () => {
     navigate('/add-transaction');
   }
-// // get transactions from backend
-// const getTransactions = async () => {
-//   const response = await axios.get('http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/transaction.php');
-//   return response.data;
-// }
 
-// // const transactions = getTransactions();
+  const fetchTransactions = async () => {
+    try {
+      const response = await axios.get("http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/transaction.php", {
+        withCredentials: true, // Ensure cookies are sent with the request
+      });
 
+      setTransactions(response.data);
+    } catch (error) {
+      console.error('Error fetching transactions:', error);
+    }
+  };
 
+  const userId = sessionStorage.getItem('user_id');
+  useEffect(() => {
+    fetchTransactions(userId);
+  }, [userId]);
+  
 
   return (
     <div id="finances-container">
       <h1>Hello, {sessionStorage.getItem('username')}!</h1>
       {/* total balance */}
       <button className="add-transaction-button" onClick={handleAddTransaction}>Add transaction</button>
-      {/* <TransactionList transactions={transactions} /> */}
+      <TransactionList transactions={transactions} />
 
       <button className="logout-button" onClick={handleLogout}>Log out</button>
     </div>
