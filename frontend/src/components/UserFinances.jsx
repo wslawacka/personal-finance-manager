@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../styles/finances.css';
 import TransactionList from './TransactionList';
+import { Link } from 'react-router-dom';
 
 function UserFinances({ setIsLoggedIn }) {
 
@@ -16,12 +17,11 @@ function UserFinances({ setIsLoggedIn }) {
     formData.append('action', 'logout');
     try {
       const response = await axios.post("http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/user.php", formData);
-      console.log(response.data);
+      setIsLoggedIn(false);
+      navigate('/login');
     } catch (error) {
       console.error('Error logging out:', error);
     }
-    setIsLoggedIn(false);
-    navigate('/login');
   }
 
   const handleAddTransaction = () => {
@@ -63,7 +63,10 @@ function UserFinances({ setIsLoggedIn }) {
   return (
     <div id="finances-container">
       <h1>Hello, {sessionStorage.getItem('username')}!</h1>
-      <p>Total balance: ${totalBalance.toFixed(2)}</p>
+      <p className="balance-label">Balance:</p>
+      <p className="total-balance">${totalBalance.toFixed(2)}</p>
+      <Link to="/expenses" state={{ transactions }}>Expenses</Link>
+      <Link to="/income" state={{ transactions }}>Income</Link>
       <button className="add-transaction-button" onClick={handleAddTransaction}>Add transaction</button>
       <TransactionList transactions={transactions} categories={categories} />
 

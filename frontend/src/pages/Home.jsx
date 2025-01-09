@@ -14,8 +14,6 @@ function Home() {
         <Link to="/register"><button className="home-button">Register</button></Link>
       </div>
 
-      {/* if user is logged in, show dashboard */}
-
       
 
     </div>
