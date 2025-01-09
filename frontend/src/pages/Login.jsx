@@ -3,6 +3,7 @@ import '../styles/login.css';
 import { Link } from 'react-router-dom';
 import UserFinances from '../components/UserFinances';
 import { useState } from 'react';
+axios.defaults.withCredentials = true;
 
 function Login() {
 
@@ -23,6 +24,10 @@ function Login() {
       const response = await axios.post("http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/user.php", formData);
       
       console.log(response.data);
+
+      const username = response.data.username;
+      console.log("username", username);
+      sessionStorage.setItem('username', username);
 
       e.target.reset();
 

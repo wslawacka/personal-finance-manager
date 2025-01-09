@@ -7,6 +7,9 @@ class TransactionController {
   }
 
   public function addTransaction($user_id, $category_id, $type, $amount, $date, $description) {
+    if (session_status() === PHP_SESSION_NONE) {
+      session_start();
+  }
     try {
       $transaction = $this->transactionModel->createTransaction($user_id, $category_id, $type, $amount, $date, $description);
       return $transaction;
@@ -16,6 +19,10 @@ class TransactionController {
   }
 
   public function editTransaction($id, $user_id, $category_id, $type, $amount, $date, $description) {
+
+    if (session_status() === PHP_SESSION_NONE) {
+      session_start();
+  }
     try {
       return $this->transactionModel->updateTransaction($id, $user_id, $category_id, $type, $amount, $date, $description);
     } catch (PDOException $e) {
@@ -23,7 +30,21 @@ class TransactionController {
     }
   }
 
+  public function getTransactions($user_id) {
+    if (session_status() === PHP_SESSION_NONE) {
+      session_start();
+  }
+    try {
+      return $this->transactionModel->getAllTransactionsByUserId($user_id);
+    } catch (PDOException $e) {
+      throw new Exception("Failed to get transactions: " . $e->getMessage());
+    }
+  }
+
   public function deleteTransaction($id) {
+    if (session_status() === PHP_SESSION_NONE) {
+      session_start();
+  }
     try {
       return $this->transactionModel->deleteTransaction($id);
     } catch (PDOException $e) {

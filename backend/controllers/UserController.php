@@ -8,6 +8,11 @@ class UserController {
   }
 
   public function registerUser($username, $email, $password) {
+
+    if (session_status() === PHP_SESSION_NONE) {
+      session_start();
+  }
+
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
       throw new Exception("Invalid email format");
     }
@@ -29,26 +34,39 @@ class UserController {
 
   public function loginUser($username, $password) {
 
-    // start session
     session_start();
+    session_regenerate_id(true);
 
-   
+    
+
+    header("Set-Cookie: PHPSESSID=" . session_id() . "; path=/; HttpOnly; SameSite=Lax");
     
     try {
         $user = $this->userModel->getUserByUsername($username);
+
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
         
         // Check if user exists and password is correct
         if (!$user || !password_verify($password, $user['password_hash'])) {
           return ['success' => false, 'message' => 'Invalid username or password'];
         }
 
+        // echo "Session ID before regeneration: " . session_id() . "<br>";
+
+        // session_regenerate_id(true);
         
-        // set session variables
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['username'];
+        // echo "Session ID after regeneration: " . session_id() . "<br>";
+
+        // echo $user['username'];;
+
+
+        // // set session variables
+        // $_SESSION['user_id'] = $user['id'];
+        // $_SESSION['username'] = $user['username'];
         
         // Send success response
-        return ['success' => true, 'message' => 'User logged in successfully', 'user' => $user];
+        return ['success' => true, 'message' => 'User logged in successfully', 'username' => $user['username']];
     } catch (PDOException $e) {
         // destroy session
         session_destroy();
@@ -57,19 +75,25 @@ class UserController {
   }
 
   public function logoutUser() {
-    // start session
-    session_start();
+    if (session_status() === PHP_SESSION_NONE) {
+      session_start();
+  }
 
-    // unset session variables
-    session_unset();
+    
+session_unset();
+session_destroy();
 
-    // destroy session
-    session_destroy();
-
+if (ini_get("session.use_cookies")) {
+    $params = session_get_cookie_params();
+    setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+}
     return ['success' => true, 'message' => 'User logged out successfully'];
   }
 
   public function getUserProfile($id) {
+    if (session_status() === PHP_SESSION_NONE) {
+      session_start();
+  }
     try {
       return $this->userModel->getUserById($id);
     } catch (PDOException $e) {
@@ -78,6 +102,9 @@ class UserController {
   }
 
   public function deleteUser($id) {
+    if (session_status() === PHP_SESSION_NONE) {
+      session_start();
+  }
     try {
       return $this->userModel->deleteUser($id);
     } catch (PDOException $e) {
