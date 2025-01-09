@@ -1,54 +1,57 @@
 import axios from 'axios';
 import '../styles/login.css';  
 import { Link } from 'react-router-dom';
+import UserFinances from '../components/UserFinances';
+import { useState } from 'react';
 
 function Login() {
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const handleLogin = async (e) => {
 
     // Prevent the default form submission behavior to avoid page reload
     e.preventDefault();
 
-    // Create the request data
-    const requestData = JSON.stringify({
-      action: 'login',
-      username: e.target.username.value,
-      password: e.target.password.value,
-    });
+    const formData = new FormData();
+    formData.append('action', 'login');
+    formData.append('username', e.target.username.value.trim());
+    formData.append('password', e.target.password.value.trim());
 
     try {
       // Send the request to the server
-      const response = await axios.post("http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/user.php", requestData);
+      const response = await axios.post("http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/user.php", formData);
       
-      // Parse the response data if it's a string
-      const userData = typeof response.data === 'string' 
-        ? JSON.parse(response.data.split('<br>')[1]) // Take the part after <br>
-        : response.data.user || response.data; // If it's already JSON, get user data
+      console.log(response.data);
 
-      // Check if login was successful by looking for user_id in response
-      if (userData.id) {
-        alert('Login successful!');
+      e.target.reset();
+
+      if (response.data.success) {
+        setIsLoggedIn(true);
       } else {
-        alert('Login failed: Invalid credentials');
+        alert(`Error: ${response.data.message}`);
       }
     } catch (error) {
-      alert('Login failed: ' + error.message);
-    }
-
-    // Reset the form
-    e.target.reset();
+      console.error("Error during login:", error);
+      alert("Invalid username or password. Please try again.");
   }
+}
 
   return (
-    <div id="login-container">
-      <p>Don't have an account? <Link className="link" to="/register">Register</Link></p>
-      <form action="login.php" method="../backend" id="login-form" onSubmit={handleLogin}>
+    <>
+      {isLoggedIn ? <UserFinances setIsLoggedIn={setIsLoggedIn} /> : (
+        <div id="login-container">
+          <p>Don't have an account? <Link className="link" to="/register">Register</Link></p>
+      <form id="login-form" onSubmit={handleLogin}>
         <h1>Log in</h1>
         <input type="text" name="username" placeholder="Username" />
         <input type="password" name="password" placeholder="Password" />
         <button type="submit">Login</button>
-      </form>
-    </div>
-  );
+          </form>
+        </div>
+      )}
+    </>
+  )
 }
 
 export default Login;

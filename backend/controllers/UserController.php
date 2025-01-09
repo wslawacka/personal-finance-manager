@@ -28,35 +28,45 @@ class UserController {
   }
 
   public function loginUser($username, $password) {
+
+    // start session
+    session_start();
+
+   
+    
     try {
         $user = $this->userModel->getUserByUsername($username);
         
         // Check if user exists and password is correct
         if (!$user || !password_verify($password, $user['password_hash'])) {
-            return null;
+          return ['success' => false, 'message' => 'Invalid username or password'];
         }
 
-        // Login successful - start session and set user data
-        session_start();
+        
+        // set session variables
         $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
         
         // Send success response
-        echo json_encode(['success' => true, 'user' => $user]);
-        echo "User logged in successfully" . "<br>";
-        
-        return $user;
+        return ['success' => true, 'message' => 'User logged in successfully', 'user' => $user];
     } catch (PDOException $e) {
-        throw new Exception("Failed to login user: " . $e->getMessage());
+        // destroy session
+        session_destroy();
+        return ['success' => false, 'message' => 'Failed to login user: ' . $e->getMessage()];
     }
   }
 
   public function logoutUser() {
+    // start session
+    session_start();
+
+    // unset session variables
     session_unset();
+
+    // destroy session
     session_destroy();
 
-    echo "User logged out successfully" . "<br>";
-
-    return;
+    return ['success' => true, 'message' => 'User logged out successfully'];
   }
 
   public function getUserProfile($id) {

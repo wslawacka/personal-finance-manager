@@ -49,6 +49,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $password = $_POST['password'];
       $response = $userController->loginUser($username, $password);
       break;
+    case 'logout':
+      $response = $userController->logoutUser();
+      break;
     default:
       $response = ['error' => 'Invalid request'];
       break;

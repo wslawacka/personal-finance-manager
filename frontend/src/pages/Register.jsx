@@ -10,10 +10,10 @@ function Register() {
     // Create form data
     const formData = new FormData();
     formData.append('action', 'register');
-    formData.append('username', e.target.username.value);
-    formData.append('email', e.target.email.value);
-    formData.append('password', e.target.password.value);
-    formData.append('confirmPassword', e.target.confirmPassword.value);
+    formData.append('username', e.target.username.value.trim());
+    formData.append('email', e.target.email.value.trim());
+    formData.append('password', e.target.password.value.trim());
+    formData.append('confirmPassword', e.target.confirmPassword.value.trim());
   
     try {
       // Send the POST request
