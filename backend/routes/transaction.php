@@ -37,14 +37,32 @@ $transactionController = new TransactionController($transactionModel);
 
 // echo json_encode($transactions);
 
+// switch statement to handle the request
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $action = $_POST['action'];
+  switch($action) {
+    case 'add':
+      $user_id = $_SESSION['user_id'];
+      $category_id = $_POST['category_id'];
+      $type = $_POST['type'];
+      $amount = $_POST['amount'];
+      $date = $_POST['date'];
+      $description = $_POST['description'];
+      $transactionController->addTransaction($user_id, $category_id, $type, $amount, $date, $description);
+      echo json_encode(['success' => true, 'message' => 'Transaction added successfully']);
+      break;
+  }
+}
 
-try {
-  $user_id = $_SESSION['user_id'];
-  $transactions = $transactionController->getTransactions($user_id);
-  echo json_encode($transactions);
-} catch (Exception $e) {
-  echo json_encode(['success' => false, 'error' => $e->getMessage()]);
-  exit;
+if($_SERVER['REQUEST_METHOD'] === 'GET') {
+  $action = $_GET['action'];
+  switch($action) {
+    case 'get':
+      $user_id = $_SESSION['user_id'];
+      $transactions = $transactionController->getTransactions($user_id);
+      echo json_encode($transactions);
+      break;
+  }
 }
   
 

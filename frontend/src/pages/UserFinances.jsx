@@ -37,15 +37,19 @@ function UserFinances({ setIsLoggedIn, transactions, setTransactions, categories
   }
 
   const handleAddTransaction = () => {
-    navigate('/add-transaction', { state: { categories } });
+    navigate('/add-transaction');
   }
 
   const fetchTransactions = async () => {
     try {
       // send the request to the server to get the transactions
-      const response = await axios.get("http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/transaction.php", {
-        withCredentials: true, // ensure cookies are sent with the request
-      });
+      const response = await axios.get("http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/transaction.php", 
+        {
+          params: {
+            action: 'get',
+          },
+          withCredentials: true, // ensure cookies are sent with the request
+        });
       // set the transactions state to the transactions from the server
       setTransactions(response.data);
       // set the total balance state to the calculated balance from the transactions

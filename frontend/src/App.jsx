@@ -28,7 +28,7 @@ function App() {
           <Route path="finances" element={<UserFinances isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} transactions={transactions} setTransactions={setTransactions} categories={categories} setCategories={setCategories} />} />
           <Route path="expenses" element={<Expenses transactions={transactions} categories={categories} />} />
           <Route path="income" element={<Income transactions={transactions} categories={categories} />} />
-          <Route path="add-transaction" element={<AddTransaction />} />
+          <Route path="add-transaction" element={<AddTransaction categories={categories} />} />
         </Route>
       </Routes>
     </BrowserRouter>
