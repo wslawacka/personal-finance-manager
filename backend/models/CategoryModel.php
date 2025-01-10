@@ -25,6 +25,16 @@ class CategoryModel {
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
+  public function getCategoryId($name, $user_id, $type) {
+    $query = "SELECT id FROM categories WHERE name = :name AND user_id = :user_id AND type = :type";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->bindParam(':type', $type);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+
   public function getAllCategoriesByUserId($user_id) {
     $query = "SELECT * FROM categories WHERE user_id = :user_id";
     $stmt = $this->conn->prepare($query);

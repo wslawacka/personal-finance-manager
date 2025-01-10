@@ -23,6 +23,14 @@ class CategoryController {
     }
   }
 
+  public function getCategoryId($name, $user_id, $type) {
+    try {
+      return $this->categoryModel->getCategoryId($name, $user_id, $type);
+    } catch (PDOException $e) {
+      throw new Exception("Failed to get category id: " . $e->getMessage());
+    }
+  }
+
   public function deleteCategory($id) {
     try {
       return $this->categoryModel->deleteCategory($id);

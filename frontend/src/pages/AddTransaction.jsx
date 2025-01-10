@@ -53,6 +53,7 @@ function AddTransaction({categories}) {
         formData.append('type', type);
         const response = await axios.post('http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/category.php', formData);
         category_id = response.data.id;
+        console.log(response.data);   
       } catch(error) {
         console.error('Error adding new category:', error);
       }
@@ -91,6 +92,7 @@ function AddTransaction({categories}) {
           <option value="expense">Expense</option>
         </select>
         <select name="category" id="category" onChange={handleCategoryChange}>
+          <option value="">Select a category</option>
           {categories.filter(category => category.type === type).map((category) => (
             <option key={category.id} value={category.id}>{category.name}</option>
           ))}

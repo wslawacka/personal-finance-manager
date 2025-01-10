@@ -30,7 +30,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
       $name = $_POST['name'];
       $type = $_POST['type'];
       $categoryController->addCategory($name, $user_id, $type);
-      echo json_encode(['success' => true, 'message' => 'Category added successfully']);
+      echo json_encode(['success' => true, 'message' => 'Category added successfully', 'id' => $categoryController->getCategoryId($name, $user_id, $type)['id']]);
       break;
   }
 }
