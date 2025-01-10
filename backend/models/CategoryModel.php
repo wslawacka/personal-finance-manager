@@ -7,11 +7,12 @@ class CategoryModel {
     $this->conn = $db;
   }
 
-  public function createCategory($name, $user_id) {
-    $query = "INSERT INTO categories (name, user_id) VALUES (:name, :user_id)";
+  public function createCategory($name, $user_id, $type) {
+    $query = "INSERT INTO categories (name, user_id, type) VALUES (:name, :user_id, :type)";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':user_id', $user_id);
+    $stmt->bindParam(':type', $type);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
@@ -32,12 +33,13 @@ class CategoryModel {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function updateCategory($id, $name, $user_id) {
-    $query = "UPDATE categories SET name = :name, user_id = :user_id WHERE id = :id";
+  public function updateCategory($id, $name, $user_id, $type) {
+    $query = "UPDATE categories SET name = :name, user_id = :user_id, type = :type WHERE id = :id";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(':id', $id);
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':user_id', $user_id);
+    $stmt->bindParam(':type', $type);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }

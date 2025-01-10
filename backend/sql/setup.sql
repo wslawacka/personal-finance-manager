@@ -12,6 +12,7 @@ CREATE TABLE users (
 CREATE TABLE categories (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(50) UNIQUE NOT NULL,
+  type ENUM('income', 'expense') NOT NULL,
   user_id INT NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users(id)
 );

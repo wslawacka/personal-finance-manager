@@ -7,9 +7,9 @@ class CategoryController {
     $this->categoryModel = $categoryModel;
   }
 
-  public function addCategory($name, $user_id) {
+  public function addCategory($name, $user_id, $type) {
     try {
-      return $this->categoryModel->createCategory($name, $user_id);
+      return $this->categoryModel->createCategory($name, $user_id, $type);
     } catch (PDOException $e) {
       throw new Exception("Failed to create category: " . $e->getMessage());
     }

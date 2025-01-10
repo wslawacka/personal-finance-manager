@@ -66,6 +66,9 @@ function UserFinances({ setIsLoggedIn, transactions, setTransactions, categories
     try {
       // send the request to the server to get the categories
       const response = await axios.get("http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/category.php", {
+        params: {
+          action: 'list',
+        },
         withCredentials: true, // ensure cookies are sent with the request
       });
       // set the categories state to the categories from the server

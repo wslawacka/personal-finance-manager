@@ -22,13 +22,28 @@ $db = $database->getConnection();
 $categoryModel = new CategoryModel($db);
 $categoryController = new CategoryController($categoryModel);
 
-try {
-  $user_id = $_SESSION['user_id'];
-  $categories = $categoryController->listCategories($user_id);
-  echo json_encode($categories);
-} catch (Exception $e) {
-  echo json_encode(['success' => false, 'error' => $e->getMessage()]);
-  exit;
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $action = $_POST['action'];
+  switch($action) {
+    case 'add':
+      $user_id = $_SESSION['user_id'];
+      $name = $_POST['name'];
+      $type = $_POST['type'];
+      $categoryController->addCategory($name, $user_id, $type);
+      echo json_encode(['success' => true, 'message' => 'Category added successfully']);
+      break;
+  }
+}
+
+if($_SERVER['REQUEST_METHOD'] === 'GET') {
+  $action = $_GET['action'];
+  switch($action) {
+    case 'list':
+      $user_id = $_SESSION['user_id'];
+      $categories = $categoryController->listCategories($user_id);
+      echo json_encode($categories);
+      break;
+  }
 }
 
 

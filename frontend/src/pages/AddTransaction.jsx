@@ -12,15 +12,28 @@ function AddTransaction({categories}) {
 
   // initialize type state for the transaction type (income or expense)
   const [type, setType] = useState('income');
+  const [newCategory, setNewCategory] = useState('');
+  const [isAddingNewCategory, setIsAddingNewCategory] = useState(false);
 
   // handle the type change
   const handleTypeChange = (e) => {
     setType(e.target.value);
   }
 
-  const handleTransactionSubmit = () => {
+  const handleCategoryChange = (e) => {
+    if(e.target.value === 'other') {
+      setIsAddingNewCategory(true);
+    } else {
+      setIsAddingNewCategory(false);
+    }
+  }
+
+  const handleTransactionSubmit = async (e) => {
+    e.preventDefault();
+
     // get the user id from the session storage
     const user_id = sessionStorage.getItem('user_id');
+
     // get the amount from the amount input
     const amount = document.querySelector('input[name="amount"]').value;
     // get the date from the date input
@@ -28,7 +41,23 @@ function AddTransaction({categories}) {
     // get the description from the description input
     const description = document.querySelector('input[name="description"]').value;
     // get the category id from the category input
-    const category_id = document.querySelector('select[name="category"]').value;
+    let category_id = document.querySelector('select[name="category"]').value || null;
+
+    if(isAddingNewCategory && newCategory) {
+      // add the new category to the database
+      try {
+        const formData = new FormData();
+        formData.append('action', 'add');
+        formData.append('user_id', user_id);
+        formData.append('name', newCategory);
+        formData.append('type', type);
+        const response = await axios.post('http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/category.php', formData);
+        category_id = response.data.id;
+      } catch(error) {
+        console.error('Error adding new category:', error);
+      }
+    }
+
 
     const formData = new FormData();
     formData.append('action', 'add');
@@ -38,12 +67,16 @@ function AddTransaction({categories}) {
     formData.append('amount', amount);
     formData.append('date', date);
     formData.append('description', description);
-    // send the request to the server to add the transaction
-    axios.post('http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/transaction.php', formData);
-
-    // navigate to the finances page
-    navigate('/finances');
     
+    try {
+      await axios.post(
+        'http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/transaction.php',
+        formData,
+      );
+      navigate('/finances');
+    } catch (error) {
+      console.error('Error adding transaction:', error);
+    }
   }
 
   return (
@@ -57,14 +90,22 @@ function AddTransaction({categories}) {
           <option value="income">Income</option>
           <option value="expense">Expense</option>
         </select>
-        <select name="category" id="category">
-        {/* if expense, display the categories for expense */}
-        {/* if income, display the categories for income */}
-        {categories.map((category) => (
-          <option key={category.id} value={category.id}>{category.name}</option>
-        ))}
+        <select name="category" id="category" onChange={handleCategoryChange}>
+          {categories.filter(category => category.type === type).map((category) => (
+            <option key={category.id} value={category.id}>{category.name}</option>
+          ))}
+          <option value="other">Other (add new)</option>
         </select>
-        <button className="add-transaction-button" type="submit" onClick={handleTransactionSubmit}>Submit</button>
+        {isAddingNewCategory && (
+          <input
+            type="text"
+            placeholder="New Category Name"
+            name="newCategory"
+            value={newCategory}
+            onChange={(e) => setNewCategory(e.target.value)}
+          />
+        )}
+        <button className="add-transaction-button" type="submit" onClick={(e) => handleTransactionSubmit(e)}>Submit</button>
       </form>
     </div>
   )
