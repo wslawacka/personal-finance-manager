@@ -37,7 +37,7 @@ function UserFinances({ setIsLoggedIn, transactions, setTransactions, categories
   }
 
   const handleAddTransaction = () => {
-    navigate('/add-transaction');
+    navigate('/add-transaction', { state: { categories } });
   }
 
   const fetchTransactions = async () => {
