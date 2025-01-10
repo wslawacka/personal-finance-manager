@@ -12,6 +12,8 @@ import { useState } from 'react';
 function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [transactions, setTransactions] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   return (
     <BrowserRouter>
@@ -20,9 +22,9 @@ function App() {
           <Route index element={<Home />} /> 
           <Route path="login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="register" element={<Register />} />
-          <Route path="finances" element={<UserFinances isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="expenses" element={<Expenses />} />
-          <Route path="income" element={<Income />} />
+          <Route path="finances" element={<UserFinances isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} transactions={transactions} setTransactions={setTransactions} categories={categories} setCategories={setCategories} />} />
+          <Route path="expenses" element={<Expenses transactions={transactions} categories={categories} />} />
+          <Route path="income" element={<Income transactions={transactions} categories={categories} />} />
         </Route>
       </Routes>
     </BrowserRouter>

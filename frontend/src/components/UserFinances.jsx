@@ -1,15 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../styles/finances.css';
+import '../styles/userFinances.css';
 import TransactionList from './TransactionList';
 import { Link } from 'react-router-dom';
 
-function UserFinances({ setIsLoggedIn }) {
+function UserFinances({ setIsLoggedIn, transactions, setTransactions, categories, setCategories }) {
 
   const navigate = useNavigate();
-  const [transactions, setTransactions] = useState([]);
-  const [categories, setCategories] = useState([]);
+
   const [totalBalance, setTotalBalance] = useState(0);
 
   const handleLogout = async () => {
@@ -35,7 +34,6 @@ function UserFinances({ setIsLoggedIn }) {
       });
       setTransactions(response.data);
       setTotalBalance(response.data.reduce((total, transaction) => {
-        console.log("transaction", transaction, "total", total);
         return total + (transaction.type === 'income' ? Number(transaction.amount) : -Number(transaction.amount));
       }, 0));
     } catch (error) {
@@ -65,8 +63,10 @@ function UserFinances({ setIsLoggedIn }) {
       <h1>Hello, {sessionStorage.getItem('username')}!</h1>
       <p className="balance-label">Balance:</p>
       <p className="total-balance">${totalBalance.toFixed(2)}</p>
-      <Link to="/expenses" state={{ transactions }}>Expenses</Link>
-      <Link to="/income" state={{ transactions }}>Income</Link>
+      <div className='finances-links'>
+        <Link className='finances-link' to="/expenses" state={{ transactions }}>Expenses</Link>
+        <Link className='finances-link' to="/income" state={{ transactions }}>Income</Link>
+      </div>
       <button className="add-transaction-button" onClick={handleAddTransaction}>Add transaction</button>
       <TransactionList transactions={transactions} categories={categories} />
 
