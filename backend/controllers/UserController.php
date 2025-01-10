@@ -7,21 +7,24 @@ class UserController {
     $this->userModel = $userModel;
   }
 
-  public function registerUser($username, $email, $password) {
+  public function registerUser($username, $email, $password, $confirmPassword) {
 
     if (session_status() === PHP_SESSION_NONE) {
       session_start();
   }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      throw new Exception("Invalid email format");
+      return ['success' => false, 'message' => 'Invalid email format'];
     }
     if (strlen($password) < 8) {
-      throw new Exception("Password must be at least 8 characters long");
+      return ['success' => false, 'message' => 'Password must be at least 8 characters long'];
+    }
+    if ($password !== $confirmPassword) {
+      return ['success' => false, 'message' => 'Passwords do not match'];
     }
     // password must contain at least one uppercase letter, one lowercase letter, one number, and one special character
     if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/', $password)) {
-      throw new Exception("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character");
+      return ['success' => false, 'message' => 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'];
     }
   
     try {

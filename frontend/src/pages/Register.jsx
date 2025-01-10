@@ -1,13 +1,20 @@
-import '../styles/register.css';
 import axios from 'axios';
+
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+import '../styles/register.css';
 
 function Register() {
 
+  // initialize error message state
+  const [errorMessage, setErrorMessage] = useState('');
+
   const handleRegister = async (e) => {
-    e.preventDefault(); // Prevent form reload
+    // prevent the default form submission behavior to avoid page reload
+    e.preventDefault();
   
-    // Create form data
+    // create a form data object to send the register data to the server
     const formData = new FormData();
     formData.append('action', 'register');
     formData.append('username', e.target.username.value.trim());
@@ -16,34 +23,35 @@ function Register() {
     formData.append('confirmPassword', e.target.confirmPassword.value.trim());
   
     try {
-      // Send the POST request
+      // send the POST request to the server
       const response = await axios.post(
         "http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/user.php",
         formData
       );
   
-      // Log the server response
-      console.log(response.data);
-  
-      // Reset the form
+      // reset the form
       e.target.reset();
   
-      // Handle success or failure
+      // check if the registration was successful
       if (response.data.success) {
-        alert("Registration successful!");
+        // set the error message to the success message
+        setErrorMessage("Registration successful!");
       } else {
-        alert(`Error: ${response.data.message}`);
+        // set the error message to the error message from the server
+        setErrorMessage(`Error: ${response.data.message}`);
       }
     } catch (error) {
-      console.error("Error during registration:", error);
-      alert("An error occurred. Please try again.");
+      // set the error message to the error message from the server
+      setErrorMessage("An error occurred. Please try again.");
     }
   };
   
 
   return (
     <div id="register-container">
+      {/* display the login link */}
       <p>Already have an account? <Link className="link" to="/login">Log in</Link></p>
+      {/* display the register form */}
       <form id="register-form" onSubmit={handleRegister}>
         <h1>Sign up</h1>
         <input type="text" placeholder="Username" name="username" />
@@ -51,6 +59,8 @@ function Register() {
         <input type="password" placeholder="Password" name="password" />
         <input type="password" placeholder="Confirm Password" name="confirmPassword" />
         <button type="submit">Sign up</button>
+        {/* display the error message */}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
       </form>
     </div>
   );

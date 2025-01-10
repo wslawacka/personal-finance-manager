@@ -30,7 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $username = $_POST['username'];
       $email = $_POST['email'];
       $password = $_POST['password'];
-      $response = $userController->registerUser($username, $email, $password);
+      $confirmPassword = $_POST['confirmPassword'];
+      $response = $userController->registerUser($username, $email, $password, $confirmPassword);
       if ($response['success']) {
         $response['message'] = 'User registered successfully';
       } else {

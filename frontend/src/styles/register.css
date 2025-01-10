@@ -63,3 +63,7 @@
   color: #000000;
   cursor: pointer;
 }
+
+.error-message {
+  margin-top: 12px;
+}

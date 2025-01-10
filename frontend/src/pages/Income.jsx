@@ -1,26 +1,29 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import TransactionList from './TransactionList';
+
+import TransactionList from '../components/TransactionList';
+
 import '../styles/income-expenses.css';
 
 function Income({ transactions, categories }) {
 
-  const [timePeriod, setTimePeriod] = useState("day"); // Default to "day"
+  // initialize time period state to "day"
+  const [timePeriod, setTimePeriod] = useState("day"); 
 
-  // get the income
+  // filter the transactions to only include income
   const income = transactions.filter(transaction => transaction.type === 'income');
 
-  // Get today's date
+  // get today's date
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // Get dates for time periods
+  // get the dates for the time periods
   const oneDay = new Date(today);
   const oneWeek = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
   const oneMonth = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
   const oneYear = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
 
-  // Filter transactions based on time period
+  // filter the income based on the time period
   const filterIncomeByPeriod = () => {
     switch (timePeriod) {
       case "day":
@@ -36,14 +39,17 @@ function Income({ transactions, categories }) {
     }
   };
 
+  // get the filtered income based on the time period
   const filteredIncome = filterIncomeByPeriod();
 
-  // Calculate the total for the filtered transactions
+  // calculate the total for the filtered transactions
   const totalIncome = filteredIncome.reduce((acc, income) => acc + Number(income.amount), 0);
 
   return (
     <div className='container'>
+      {/* display the link to go back to the finances page */}
       <Link className='back-link' to="/finances">Go back</Link>
+      {/* display the buttons to select the time period */}
       <div className="time-period-selector">
         <button
           className={timePeriod === "day" ? "active" : ""}
@@ -70,9 +76,10 @@ function Income({ transactions, categories }) {
           This Year
         </button>
       </div>
+      {/* display the list of transactions filtered by the time period */}
       <TransactionList transactions={filteredIncome} categories={categories} />
+      {/* display the total income */}
       <h2 className='total'>Total Income: <span className='total-amount'>+{totalIncome.toFixed(2)}</span></h2>
-
     </div>
   )
 }
