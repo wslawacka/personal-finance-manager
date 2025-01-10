@@ -29,14 +29,6 @@ $transactionController = new TransactionController($transactionModel);
 // $categoryController->addCategory('Test category5', 19);
 // $categoryController->addCategory('Test category6', 19);
 
-$transactionController->addTransaction(20, 6, 'income', 320, '2024-01-08', 'Test transaction');
-$transactionController->addTransaction(20, 7, 'income', 180, '2024-01-15', 'Test transaction2');
-$transactionController->addTransaction(20, 8, 'expense', 10, '2024-01-11', 'Test transaction3');
-
-$transactionController->addTransaction(19, 10, 'expense', 340, '2024-01-07', 'Test transaction4');
-$transactionController->addTransaction(19, 11, 'income', 1000, '2024-01-05', 'Test transaction5');
-
-
 // $emailService = new EmailService();
 
 // $emailService->sendWelcomeEmail('slawacka@wp.pl', 'Werunia');
