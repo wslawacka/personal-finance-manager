@@ -21,21 +21,9 @@ session_start();
 $database = new Database();
 $db = $database->getConnection();
 
-// //start session
-// session_start();
-
 // Create transaction model and controller
 $transactionModel = new TransactionModel($db);
 $transactionController = new TransactionController($transactionModel);
-
-
-// // Get user_id from session storage
-// $user_id = $_SESSION['user_id'];
-
-// // Get all transactions
-// $transactions = $transactionController->getTransactions($user_id);
-
-// echo json_encode($transactions);
 
 // switch statement to handle the request
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -51,6 +39,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
       $transactionController->addTransaction($user_id, $category_id, $type, $amount, $date, $description);
       echo json_encode(['success' => true, 'message' => 'Transaction added successfully']);
       break;
+    case 'delete':
+      $id = $_POST['id'];
+      $transactionController->deleteTransaction($id);
+      echo json_encode(['success' => true, 'message' => 'Transaction deleted successfully']);
+      break;
   }
 }
 
@@ -64,6 +57,4 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
       break;
   }
 }
-  
-
 ?>

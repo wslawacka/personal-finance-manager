@@ -16,12 +16,12 @@ class EmailService {
   // configure mailer for gmail
   private function configureMailer() {
     $this->mailer->isSMTP();
-    $this->mailer->Host = 'smtp.gmail.com'; // Replace with your SMTP server
+    $this->mailer->Host = 'smtp.gmail.com'; 
     $this->mailer->SMTPAuth = true;
-    $this->mailer->Username = 'personalfinancemanager2@gmail.com'; // Replace with your email
-    $this->mailer->Password = 'aldk uvkf iizu iaah'; // Replace with your password
+    $this->mailer->Username = 'personalfinancemanager2@gmail.com';
+    $this->mailer->Password = 'aldk uvkf iizu iaah';
     $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $this->mailer->Port = 587; // Replace with your SMTP port
+    $this->mailer->Port = 587;
   }
 
   public function sendWelcomeEmail($email, $username) {

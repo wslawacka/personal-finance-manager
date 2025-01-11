@@ -97,13 +97,13 @@ function UserFinances({ setIsLoggedIn, transactions, setTransactions, categories
       <p className="total-balance">${totalBalance.toFixed(2)}</p>
       {/* display the links to the expenses and income pages */}
       <div className='finances-links'>
-        <Link className='finances-link' to="/expenses" state={{ transactions }}>Expenses</Link>
-        <Link className='finances-link' to="/income" state={{ transactions }}>Income</Link>
+        <Link className='finances-link' to="/expenses">Expenses</Link>
+        <Link className='finances-link' to="/income">Income</Link>
       </div>
       {/* display the add transaction button */}
       <button className="add-transaction-button" onClick={handleAddTransaction}>Add transaction</button>
       {/* display the list of transactions */}
-      <TransactionList transactions={transactions} categories={categories} />
+      <TransactionList transactions={transactions} categories={categories} fetchTransactions={fetchTransactions} />
       {/* display the logout button */}
       <button className="logout-button" onClick={handleLogout}>Log out</button>
     </div>

@@ -22,9 +22,28 @@
 
 .transaction-item {
   font-size: 1.1rem;
-  line-height: 1.5;
+  line-height: 2;
 }
 
 .transaction-property {
   margin-right: 20px;
+}
+
+.delete-transaction-button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  background-color: #aab9cf;
+  margin-left: 10px;
+  transition: background-color 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.delete-transaction-button:hover {
+  background-color: #8a9db5;
+}
+
+.delete-transaction-button:active {
+  background-color: #6a7d95;
 }

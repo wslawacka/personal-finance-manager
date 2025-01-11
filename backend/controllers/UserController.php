@@ -39,9 +39,6 @@ class UserController {
 
     session_start();
     session_regenerate_id(true);
-
-    
-
     header("Set-Cookie: PHPSESSID=" . session_id() . "; path=/; HttpOnly; SameSite=Lax");
     
     try {
@@ -54,20 +51,6 @@ class UserController {
         if (!$user || !password_verify($password, $user['password_hash'])) {
           return ['success' => false, 'message' => 'Invalid username or password'];
         }
-
-        // echo "Session ID before regeneration: " . session_id() . "<br>";
-
-        // session_regenerate_id(true);
-        
-        // echo "Session ID after regeneration: " . session_id() . "<br>";
-
-        // echo $user['username'];;
-
-
-        // // set session variables
-        // $_SESSION['user_id'] = $user['id'];
-        // $_SESSION['username'] = $user['username'];
-        
         // Send success response
         return ['success' => true, 'message' => 'User logged in successfully', 'username' => $user['username']];
     } catch (PDOException $e) {
@@ -80,16 +63,14 @@ class UserController {
   public function logoutUser() {
     if (session_status() === PHP_SESSION_NONE) {
       session_start();
-  }
+    }
+    session_unset();
+    session_destroy();
 
-    
-session_unset();
-session_destroy();
-
-if (ini_get("session.use_cookies")) {
-    $params = session_get_cookie_params();
-    setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
-}
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+    }
     return ['success' => true, 'message' => 'User logged out successfully'];
   }
 

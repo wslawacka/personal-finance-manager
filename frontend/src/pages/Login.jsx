@@ -1,5 +1,5 @@
 import axios from 'axios';
-// Enable cookies to be sent with the request
+// enable cookies to be sent with the request
 axios.defaults.withCredentials = true;
 
 import { Link, useNavigate } from 'react-router-dom';

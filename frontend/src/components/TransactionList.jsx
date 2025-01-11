@@ -1,6 +1,22 @@
+import axios from "axios";
+
+import { useEffect } from "react";
+
 import "../styles/transactionList.css";
 
-function TransactionList({ transactions, categories }) {
+function TransactionList({ transactions, categories, fetchTransactions }) {
+
+  const handleDeleteTransaction = async (transactionId) => {
+    const formData = new FormData();
+    formData.append('action', 'delete');
+    formData.append('id', transactionId);
+    try {
+      await axios.post('http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/transaction.php', formData);
+      fetchTransactions();
+    } catch(error) {
+      alert('Error deleting transaction');
+    }
+  };
 
   return (
     <div className="transaction-list-container">
@@ -14,8 +30,9 @@ function TransactionList({ transactions, categories }) {
           <span className="transaction-property">{transaction.amount}</span>
           <span className="transaction-property">{transaction.description}</span>
           {/* display the correct category name - find the category name by matching the user_id and category_id */}
-          <span className="transaction-property">{categories.find(category => category.user_id === transaction.user_id && category.id === transaction.category_id)?.name || 'Unknown'}</span> 
+          <span className="transaction-property">{categories.find(category => category.user_id === transaction.user_id && category.id === transaction.category_id)?.name ?? 'Unknown'}</span> 
           <span className="transaction-property">{transaction.date}</span> 
+          <button className="delete-transaction-button" onClick={() => handleDeleteTransaction(transaction.id)}>Delete</button>
         </li>
       ))}
     </ul> 
