@@ -49,6 +49,17 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
       $transactionController->deleteTransaction($id);
       echo json_encode(['success' => true, 'message' => 'Transaction deleted successfully']);
       break;
+    case 'edit':
+      $id = $_POST['id'];
+      $user_id = $_SESSION['user_id'];
+      $category_id = $_POST['category_id'];
+      $type = $_POST['type'];
+      $amount = $_POST['amount'];
+      $date = $_POST['date'];
+      $description = $_POST['description'];
+      $transactionController->editTransaction($id, $user_id, $category_id, $type, $amount, $date, $description);
+      echo json_encode(['success' => true, 'message' => 'Transaction edited successfully']);
+      break;
   }
 }
 

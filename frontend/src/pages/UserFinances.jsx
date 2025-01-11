@@ -103,7 +103,7 @@ function UserFinances({ setIsLoggedIn, transactions, setTransactions, categories
       {/* display the add transaction button */}
       <button className="add-transaction-button" onClick={handleAddTransaction}>Add transaction</button>
       {/* display the list of transactions */}
-      <TransactionList transactions={transactions} categories={categories} fetchTransactions={fetchTransactions} />
+      <TransactionList transactions={transactions} categories={categories} fetchTransactions={fetchTransactions} fetchCategories={fetchCategories} />
       {/* display the logout button */}
       <button className="logout-button" onClick={handleLogout}>Log out</button>
     </div>
