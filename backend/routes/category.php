@@ -1,27 +1,36 @@
 <?php
-header('Access-Control-Allow-Origin: http://localhost:5173'); // Frontend URL
-header('Access-Control-Allow-Credentials: true');            // Allow cookies
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS');  // Allowed methods
+// allow requests from the frontend
+header('Access-Control-Allow-Origin: http://localhost:5173');
+// allow cookies
+header('Access-Control-Allow-Credentials: true');           
+// allow methods
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS'); 
+// allow headers
 header('Access-Control-Allow-Headers: Content-Type');     
 
-// Handle preflight requests - CORS 
+// handle preflight requests - CORS
 if($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
 }
 
+// include necessary files
 require_once '../models/CategoryModel.php';
 require_once '../controllers/CategoryController.php';
 require_once '../config/Database.php';
 
+// start session
 session_start();
 
+// create database connection
 $database = new Database();
 $db = $database->getConnection();
 
+// create category model and controller
 $categoryModel = new CategoryModel($db);
 $categoryController = new CategoryController($categoryModel);
 
+// handle POST requests
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
   $action = $_POST['action'];
   switch($action) {
@@ -35,6 +44,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 
+// handle GET requests
 if($_SERVER['REQUEST_METHOD'] === 'GET') {
   $action = $_GET['action'];
   switch($action) {
@@ -45,6 +55,5 @@ if($_SERVER['REQUEST_METHOD'] === 'GET') {
       break;
   }
 }
-
 
 ?>

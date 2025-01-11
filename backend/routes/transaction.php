@@ -1,31 +1,36 @@
 <?php
-header('Access-Control-Allow-Origin: http://localhost:5173'); // Frontend URL
-header('Access-Control-Allow-Credentials: true');            // Allow cookies
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS');  // Allowed methods
-header('Access-Control-Allow-Headers: Content-Type');     
+// allow requests from the frontend
+header('Access-Control-Allow-Origin: http://localhost:5173');
+// allow cookies
+header('Access-Control-Allow-Credentials: true');
+// allow methods
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+// allow headers
+header('Access-Control-Allow-Headers: Content-Type');
 
-// Handle preflight requests - CORS 
+// handle preflight requests - CORS
 if($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
 }
 
-// Include necessary files
+// include necessary files
 require_once '../models/TransactionModel.php';
 require_once '../controllers/TransactionController.php';
 require_once '../config/Database.php';
 
+// start session
 session_start();
 
-// Create database connection
+// create database connection
 $database = new Database();
 $db = $database->getConnection();
 
-// Create transaction model and controller
+// create transaction model and controller
 $transactionModel = new TransactionModel($db);
 $transactionController = new TransactionController($transactionModel);
 
-// switch statement to handle the request
+// handle POST requests
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
   $action = $_POST['action'];
   switch($action) {

@@ -31,7 +31,6 @@ function Register() {
   
       // reset the form
       e.target.reset();
-  
       // check if the registration was successful
       if (response.data.success) {
         // set the error message to the success message

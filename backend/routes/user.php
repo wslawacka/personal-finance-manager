@@ -1,28 +1,33 @@
 <?php
-header('Access-Control-Allow-Origin: http://localhost:5173'); // Frontend URL
-header('Access-Control-Allow-Credentials: true');            // Allow cookies
-header('Access-Control-Allow-Methods: POST, GET, OPTIONS');  // Allowed methods
+// allow requests from the frontend
+header('Access-Control-Allow-Origin: http://localhost:5173');
+// allow cookies
+header('Access-Control-Allow-Credentials: true');            
+// allow methods
+header('Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS');  
+// allow headers
 header('Access-Control-Allow-Headers: Content-Type');     
 
-// Handle preflight requests - CORS 
+// handle preflight requests - CORS
 if($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
 }
 
-// Include necessary files
+// include necessary files
 require_once '../models/UserModel.php';
 require_once '../controllers/UserController.php';
 require_once '../config/Database.php';
 
-// Create database connection
+// create database connection
 $database = new Database();
 $db = $database->getConnection();
 
-// Create user model and controller
+// create user model and controller
 $userModel = new UserModel($db);
 $userController = new UserController($userModel);
 
+// handle POST requests
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $action = $_POST['action'] ?? null;
   switch ($action) {
@@ -32,11 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $password = $_POST['password'];
       $confirmPassword = $_POST['confirmPassword'];
       $response = $userController->registerUser($username, $email, $password, $confirmPassword);
-      if ($response['success']) {
-        $response['message'] = 'User registered successfully';
-      } else {
-        $response['message'] = 'User registration failed';
-      }
       break;
     case 'login':
       $username = $_POST['username'];
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $response = $userController->logoutUser();
       break;
     default:
-      $response = ['error' => 'Invalid request'];
+      $response = ['success' => false, 'message' => 'Invalid request'];
       break;
   }
   echo json_encode($response);

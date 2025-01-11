@@ -14,7 +14,6 @@ class UserModel {
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':password_hash', $password_hash);
     $stmt->execute();
-    // return created user
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 

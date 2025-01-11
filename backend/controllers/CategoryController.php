@@ -11,7 +11,7 @@ class CategoryController {
     try {
       return $this->categoryModel->createCategory($name, $user_id, $type);
     } catch (PDOException $e) {
-      throw new Exception("Failed to create category: " . $e->getMessage());
+      return ['success' => false, 'message' => 'Failed to create category: ' . $e->getMessage()];
     }
   }
 
@@ -19,7 +19,7 @@ class CategoryController {
     try {
       return $this->categoryModel->getAllCategoriesByUserId($user_id);
     } catch (PDOException $e) {
-      throw new Exception("Failed to get all categories by user id: " . $e->getMessage());
+      return ['success' => false, 'message' => 'Failed to get all categories by user id: ' . $e->getMessage()];
     }
   }
 
@@ -27,7 +27,7 @@ class CategoryController {
     try {
       return $this->categoryModel->getCategoryId($name, $user_id, $type);
     } catch (PDOException $e) {
-      throw new Exception("Failed to get category id: " . $e->getMessage());
+      return ['success' => false, 'message' => 'Failed to get category id: ' . $e->getMessage()];
     }
   }
 
@@ -35,7 +35,7 @@ class CategoryController {
     try {
       return $this->categoryModel->deleteCategory($id);
     } catch (PDOException $e) {
-      throw new Exception("Failed to delete category: " . $e->getMessage());
+      return ['success' => false, 'message' => 'Failed to delete category: ' . $e->getMessage()];
     }
   }
 }

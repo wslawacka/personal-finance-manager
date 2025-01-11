@@ -15,6 +15,7 @@ class EmailService {
 
   // configure mailer for gmail
   private function configureMailer() {
+    $this->mailer->setFrom('personalfinancemanager2@gmail.com','Personal Finance Manager');
     $this->mailer->isSMTP();
     $this->mailer->Host = 'smtp.gmail.com'; 
     $this->mailer->SMTPAuth = true;
@@ -27,7 +28,6 @@ class EmailService {
   public function sendWelcomeEmail($email, $username) {
     try {
       $this->configureMailer();
-      $this->mailer->setFrom('noreply@financemanager.com', 'Personal Finance Manager');
       $this->mailer->clearAddresses();
       $this->mailer->addAddress($email, $username);
       $this->mailer->isHTML(true);
