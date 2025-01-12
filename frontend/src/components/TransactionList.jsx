@@ -63,8 +63,6 @@ function TransactionList({ transactions, categories, fetchTransactions, fetchCat
     let category_id = editData.category_id;
 
     if (isAddingNewCategory && newCategory) {
-
-      
      
       try {
         const formData = new FormData();
@@ -99,7 +97,7 @@ function TransactionList({ transactions, categories, fetchTransactions, fetchCat
         "http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/transaction.php",
         formData
       );
-      fetchTransactions();
+      await fetchTransactions();
       setEditingTransactionId(null);
       setNewCategory(""); 
     } catch (error) {

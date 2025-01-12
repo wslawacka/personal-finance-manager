@@ -48,6 +48,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
       $categoryController->deleteCategory($id, $cascade);
       echo json_encode(['success' => true, 'message' => 'Category deleted successfully']);
       break;
+    case 'edit':
+      $id = $_POST['id'];
+      $name = $_POST['name'];
+      $user_id = $_SESSION['user_id'];
+      $type = $_POST['type'];
+      $categoryController->editCategory($id, $name, $user_id, $type);
+      echo json_encode(['success' => true, 'message' => 'Category edited successfully']);
+      break;
   }
 }
 

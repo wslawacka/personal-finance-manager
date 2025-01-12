@@ -31,6 +31,14 @@ class CategoryController {
     }
   }
 
+  public function editCategory($id, $name, $user_id, $type) {
+    try {
+      return $this->categoryModel->updateCategory($id, $name, $user_id, $type);
+    } catch (PDOException $e) {
+      return ['success' => false, 'message' => 'Failed to edit category: ' . $e->getMessage()];
+    }
+  }
+
   public function deleteCategory($id, $cascade) {
     try {
       return $this->categoryModel->deleteCategory($id, $cascade);

@@ -54,7 +54,7 @@ function AddTransaction({categories}) {
         const response = await axios.post('http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/category.php', formData);
         category_id = response.data.id;
       } catch(error) {
-        console.error('Error adding new category:', error);
+        alert('Error adding new category');
       }
     }
 
@@ -75,7 +75,7 @@ function AddTransaction({categories}) {
       );
       navigate('/finances');
     } catch (error) {
-      console.error('Error adding transaction:', error);
+      alert('Error adding transaction');
     }
   }
 

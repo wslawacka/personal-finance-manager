@@ -19,6 +19,7 @@
 
 .categories-list > li {
   display: flex;
+  align-items: center;
   gap: 70px;
   font-size: 16px;
 }
@@ -26,11 +27,13 @@
 .category-info-container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
 
 .category-buttons-container {
   display: flex;
+  align-items: center;
   gap: 10px;
 }
 

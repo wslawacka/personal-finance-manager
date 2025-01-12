@@ -1,12 +1,15 @@
 import axios from 'axios';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
 import '../styles/manageCategories.css';
 
 function ManageCategories({ categories, setCategories}) {
+
+  const [editingCategoryId, setEditingCategoryId] = useState(null);
+  const [editData, setEditData] = useState({});
 
   const fetchCategories = async () => {
     const response = await axios.get("http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/category.php", {
@@ -21,9 +24,32 @@ function ManageCategories({ categories, setCategories}) {
     fetchCategories();
   });
 
-  // const handleEditCategory = (category) => {
-    
-  // }
+  const handleEditCategory = (category) => {
+    setEditingCategoryId(category.id);
+    setEditData({
+      name: category.name,
+      type: category.type,
+    });
+  }
+
+  const handleSaveCategory = async (category) => {
+    const formData = new FormData();
+    formData.append("action", "edit");
+    formData.append("id", editingCategoryId);
+    formData.append("name", editData.name);
+    formData.append("type", editData.type);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/category.php",
+        formData
+      );
+      await fetchCategories();
+      setEditingCategoryId(null);
+    } catch (error) {
+      alert("Error saving category");
+    }
+  }
 
   const handleDeleteCategory = async (categoryId) => {
     const formData = new FormData();
@@ -39,7 +65,7 @@ function ManageCategories({ categories, setCategories}) {
       
       if ( response.data.success === false &&  response.data.message.includes("linked transactions")) {
         const confirmCascade = window.confirm(
-          `${response.data.message} (${response.data.transaction_count} transactions). Do you want to delete them?`
+          `${response.data.message} (${response.data.transaction_count} transactions)`
         );
         if (confirmCascade) {
           const cascadeFormData = new FormData();
@@ -53,12 +79,11 @@ function ManageCategories({ categories, setCategories}) {
           );
 
           if (cascadeResponse.data.success) {
-            fetchCategories(); // Refresh categories
+            fetchCategories();
           }
         }
       } 
     } catch (error) {
-        console.error("Error deleting category:", error);
         alert("Error deleting category");
       }   
   };
@@ -70,13 +95,32 @@ function ManageCategories({ categories, setCategories}) {
       <ul className="categories-list">
         {categories.map((category) => (
           <li key={category.id}>
-            <div className="category-info-container">
-              <span className="category-name">{category.name}</span><span className={`category-type ${category.type}`}>{category.type}</span>
-            </div>
+            {editingCategoryId === category.id ? (
+              <>
+                <input
+                  type="text"
+                  value={editData.name}
+                  onChange={(e) => setEditData((prevData) => ({
+                    ...prevData,
+                    name: e.target.value,
+                  }))}
+                  placeholder="Category name"
+                />
+                <button onClick={() => handleSaveCategory(category)}>Save</button>
+                <button onClick={() => setEditingCategoryId(null)}>Cancel</button>
+              </>
+            ) : (
+              <>
+                <div className="category-info-container">
+                  <span className="category-name">{category.name}</span><span className={`category-type ${category.type}`}>{category.type}</span>
+                </div>
+            
             <div className="category-buttons-container">
-              <button className="edit-category-button">Edit</button>
+              <button className="edit-category-button" onClick={() => handleEditCategory(category)}>Edit</button>
               <button className="delete-category-button" onClick={() => handleDeleteCategory(category.id)}>Delete</button>
             </div>
+            </>
+            )}
           </li>
         ))}
       </ul>

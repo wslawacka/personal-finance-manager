@@ -82,9 +82,12 @@ function UserFinances({ setIsLoggedIn, transactions, setTransactions, categories
   };
   
   // use useEffect to fetch the transactions and categories when the user id changes
-  useEffect(() => {
-    fetchTransactions();
-    fetchCategories();
+  useEffect( () => {
+    async function fetchData(){
+      await fetchCategories();
+      await fetchTransactions();
+    }
+    fetchData();
   }, []);
 
   return (
