@@ -2,7 +2,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import '../styles/addTransaction.css';
 
@@ -81,6 +81,7 @@ function AddTransaction({categories}) {
 
   return (
     <div className="add-transaction-container">
+      <Link className="back-link" to="/finances">Back to transactions</Link>
       <h1>Add Transaction</h1>
       <form className="add-transaction-form">
         <input type="number" placeholder="Amount" min="0" name="amount"/>
