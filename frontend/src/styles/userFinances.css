@@ -32,7 +32,8 @@
   background-color: rgba(170, 185, 207, 0.6);
 }
 
-.add-transaction-button {
+.add-transaction-button,
+.manage-categories-button {
   margin-bottom: 20px;
   margin-top: 20px;
   cursor: pointer;
@@ -41,16 +42,23 @@
   font-size: 16px;
   border-radius: 2px;
   background-color: #b6c7e3;
-  transition: background-color 0.2s;
+  transition: background-color 0.3s;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.add-transaction-button:hover {
+.add-transaction-button:hover,
+.manage-categories-button:hover {
   background-color: #aab9cf;
 }
 
-.add-transaction-button:active {
+.add-transaction-button:active,
+.manage-categories-button:active {
   background-color: rgba(170, 185, 207, 0.6);
+}
+
+.buttons-container {
+  display: flex;
+  gap: 10px;
 }
 
 .total-balance {

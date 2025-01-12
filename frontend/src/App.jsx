@@ -9,6 +9,7 @@ import Expenses from './pages/Expenses';
 import Income from './pages/Income';
 import UserFinances from './pages/UserFinances';
 import AddTransaction from './pages/AddTransaction';
+import ManageCategories from './pages/ManageCategories';
 
 import './styles/App.css';
 
@@ -29,6 +30,7 @@ function App() {
           <Route path="expenses" element={<Expenses transactions={transactions} categories={categories} />} />
           <Route path="income" element={<Income transactions={transactions} categories={categories} />} />
           <Route path="add-transaction" element={<AddTransaction categories={categories} />} />
+          <Route path="manage-categories" element={<ManageCategories categories={categories} setCategories={setCategories} />} />
         </Route>
       </Routes>
     </BrowserRouter>

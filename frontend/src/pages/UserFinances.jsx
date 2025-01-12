@@ -103,7 +103,10 @@ function UserFinances({ setIsLoggedIn, transactions, setTransactions, categories
         <Link className='finances-link' to="/income">Income</Link>
       </div>
       {/* display the add transaction button */}
-      <button className="add-transaction-button" onClick={handleAddTransaction}>Add transaction</button>
+      <div className="buttons-container">
+        <button className="add-transaction-button" onClick={handleAddTransaction}>Add transaction</button>
+        <button className="manage-categories-button" onClick={() => navigate('/manage-categories')}>Manage categories</button>
+      </div>
       {/* display the list of transactions */}
       <TransactionList transactions={transactions} categories={categories} fetchTransactions={fetchTransactions} fetchCategories={fetchCategories} />
       {/* display the logout button */}
