@@ -77,14 +77,13 @@ function TransactionList({ transactions, categories, fetchTransactions, fetchCat
           "http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/category.php",
           formData
         );
+        await fetchCategories();
+        category_id = response.data.id;
       } catch (error) {
         alert("Error adding new category");
         return;
       }
-    }
-
-    fetchCategories();
-    category_id = response.data.id; 
+    } 
 
     const formData = new FormData();
     formData.append("action", "edit");
