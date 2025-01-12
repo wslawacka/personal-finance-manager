@@ -25,6 +25,7 @@
   line-height: 2;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .transaction-property {
@@ -104,4 +105,16 @@
 .sorting-options button.active {
   background-color: rgba(0, 0, 0, 0.6);
   color: #fff;
+}
+
+.transaction-details {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.transaction-buttons {
+  display: flex;
+  align-items: center;
+  height: 100%;
 }

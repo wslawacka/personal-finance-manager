@@ -201,6 +201,7 @@ function TransactionList({ transactions, categories, fetchTransactions, fetchCat
               </>
             ) : (
               <>
+                <div className="transaction-details">
                 {transaction.type === "income" ? <span>+</span> : <span>-</span>}
                 <span className="transaction-property">{transaction.amount}</span>
                 <span className="transaction-property">{transaction.description}</span>
@@ -212,8 +213,11 @@ function TransactionList({ transactions, categories, fetchTransactions, fetchCat
                   )?.name ?? "Unknown"}
                 </span>
                 <span className="transaction-property">{transaction.date}</span>
-                <button className="edit-transaction-button" onClick={() => handleEditTransaction(transaction)}>Edit</button>
-                <button className="delete-transaction-button" onClick={() => handleDeleteTransaction(transaction.id)}>Delete</button>
+                </div>
+                <div className="transaction-buttons">
+                  <button className="edit-transaction-button" onClick={() => handleEditTransaction(transaction)}>Edit</button>
+                  <button className="delete-transaction-button" onClick={() => handleDeleteTransaction(transaction.id)}>Delete</button>
+                </div>
               </>
             )}
           </li>
