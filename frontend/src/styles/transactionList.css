@@ -80,3 +80,28 @@
 .transaction-item > select:focus {
   outline: none;
 }
+
+.sorting-options {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+
+.sorting-options button {
+  padding: 8px 12px;
+  border: none;
+  background-color: #cbced2;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.sorting-options button:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #fff;
+}
+.sorting-options button.active {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+}

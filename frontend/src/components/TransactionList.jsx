@@ -7,6 +7,16 @@ function TransactionList({ transactions, categories, fetchTransactions, fetchCat
   const [editData, setEditData] = useState({});
   const [isAddingNewCategory, setIsAddingNewCategory] = useState(false);
   const [newCategory, setNewCategory] = useState("");
+  const [sortBy, setSortBy] = useState("date");
+
+  const sortedTransactions = [...transactions].sort((a, b) => {
+    if (sortBy === "date") {
+      return new Date(b.date) - new Date(a.date);
+    } else if (sortBy === "amount") {
+      return b.amount - a.amount;
+    }
+    return 0;
+  });
 
   const handleDeleteTransaction = async (transactionId) => {
     const formData = new FormData();
@@ -106,8 +116,12 @@ function TransactionList({ transactions, categories, fetchTransactions, fetchCat
   return (
     <div className="transaction-list-container">
       <h2>Recent transactions:</h2>
+      <div className="sorting-options">
+        <button className={sortBy === "date" ? "active" : ""} onClick={() => setSortBy("date")}>Sort by date</button>
+        <button className={sortBy === "amount" ? "active" : ""} onClick={() => setSortBy("amount")}>Sort by amount</button>
+      </div>
       <ul className="transaction-list">
-        {transactions.map((transaction) => (
+        {sortedTransactions.map((transaction) => (
           <li className="transaction-item" key={transaction.id}>
             {editingTransactionId === transaction.id ? (
               <>

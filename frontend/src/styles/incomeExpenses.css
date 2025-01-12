@@ -36,12 +36,12 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
-.time-period-selector button.active {
-  background-color: rgba(0, 0, 0, 0.6);
+.time-period-selector button:hover {
+  background-color: rgba(0, 0, 0, 0.4);
   color: #fff;
 }
 
-.time-period-selector button:hover {
-  background-color: rgba(0, 0, 0, 0.3);
-  color: #000;
+.time-period-selector button.active {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
 }
