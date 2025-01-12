@@ -146,7 +146,7 @@ function TransactionList({ transactions, categories, fetchTransactions, fetchCat
                       description: e.target.value,
                     }))
                   }
-                  placeholder="Description"
+                  placeholder="Description (optional)"
                 />
                 <select
                   value={editData.type}

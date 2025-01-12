@@ -85,7 +85,7 @@ function AddTransaction({categories}) {
       <h1>Add Transaction</h1>
       <form className="add-transaction-form">
         <input type="number" placeholder="Amount" min="0" name="amount"/>
-        <input type="text" placeholder="Description" name="description"/>
+        <input type="text" placeholder="Description (optional)" name="description"/>
         <input type="date" placeholder="Date" name="date"/>
         <select name="type" id="type" onChange={handleTypeChange}>
           <option value="income">Income</option>
