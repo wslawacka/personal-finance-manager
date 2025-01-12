@@ -80,15 +80,12 @@ function UserFinances({ setIsLoggedIn, transactions, setTransactions, categories
       setErrorMessage(error.response.data.message);
     }
   };
-
-  // get the user id from the session storage
-  const userId = sessionStorage.getItem('user_id');
-
+  
   // use useEffect to fetch the transactions and categories when the user id changes
   useEffect(() => {
     fetchTransactions();
     fetchCategories();
-  }, [userId]);
+  }, []);
 
   return (
     <div id="finances-container">

@@ -54,12 +54,44 @@ class CategoryModel {
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
-  public function deleteCategory($id) {
-    $query = "DELETE FROM categories WHERE id = :id";
-    $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(':id', $id);
-    $stmt->execute();
-    return;
+  public function deleteCategory($id, $cascade) {
+
+    try {
+      // Check for linked transactions
+      $query = "SELECT COUNT(*) AS transaction_count FROM transactions WHERE category_id = :category_id";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(':category_id', $id);
+      $stmt->execute();
+      $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      if ($result['transaction_count'] > 0 && !$cascade) {
+          echo json_encode([
+              'success' => false,
+              'message' => 'This category has linked transactions. Do you want to delete the category along with its linked transactions?',
+              'transaction_count' => $result['transaction_count']
+          ]);
+          exit;
+      }
+
+      // Delete linked transactions if cascade is true
+      if ($cascade) {
+          $query = "DELETE FROM transactions WHERE category_id = :category_id";
+          $stmt = $this->conn->prepare($query);
+          $stmt->bindParam(':category_id', $id);
+          $stmt->execute();
+      }
+
+      // Delete the category
+      $query = "DELETE FROM categories WHERE id = :id";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(':id', $id);
+      $stmt->execute();
+
+      echo json_encode(['success' => true, 'message' => 'Category deleted successfully']);
+  } catch (Exception $e) {
+      // Catch any errors and return a structured response
+      echo json_encode(['success' => false, 'message' => 'An unexpected error occurred: ' . $e->getMessage()]);
   }
+}
 }
 ?>

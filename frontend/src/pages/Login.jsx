@@ -9,13 +9,18 @@ import '../styles/login.css';
 
 function Login({ setIsLoggedIn }) {
 
+  
+  // initialize error message state
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+
   // initialize useNavigate hook to navigate to the user finances page after successful login
   const navigate = useNavigate();
 
-  // initialize error message state
-  const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogin = async (e) => {
+    
+    setLoading(true);
 
     // prevent the default form submission behavior to avoid page reload
     e.preventDefault();
@@ -29,6 +34,8 @@ function Login({ setIsLoggedIn }) {
     try {
       // send the request to the server
       const response = await axios.post("http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/user.php", formData);
+
+      setLoading(false);
 
       // get the username from the response
       const username = response.data.username;
@@ -51,6 +58,8 @@ function Login({ setIsLoggedIn }) {
         setErrorMessage(`Error: ${response.data.message}`);
       }
     } catch (error) {
+
+      setLoading(false);
       // set the error message
       setErrorMessage("Invalid username or password. Please try again.");
     }
@@ -66,6 +75,7 @@ function Login({ setIsLoggedIn }) {
         <input type="text" name="username" placeholder="Username" />
         <input type="password" name="password" placeholder="Password" />
         <button type="submit">Login</button>
+        {loading && <p>Loading...</p>}
         {errorMessage && <p className="error-message">{errorMessage}</p>}
       </form>
     </div>

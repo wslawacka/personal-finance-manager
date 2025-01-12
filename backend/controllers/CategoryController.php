@@ -31,9 +31,9 @@ class CategoryController {
     }
   }
 
-  public function deleteCategory($id) {
+  public function deleteCategory($id, $cascade) {
     try {
-      return $this->categoryModel->deleteCategory($id);
+      return $this->categoryModel->deleteCategory($id, $cascade);
     } catch (PDOException $e) {
       return ['success' => false, 'message' => 'Failed to delete category: ' . $e->getMessage()];
     }

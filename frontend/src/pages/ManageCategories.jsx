@@ -19,7 +19,50 @@ function ManageCategories({ categories, setCategories}) {
 
   useEffect(() => {
     fetchCategories();
-  }, []);
+  });
+
+  // const handleEditCategory = (category) => {
+    
+  // }
+
+  const handleDeleteCategory = async (categoryId) => {
+    const formData = new FormData();
+    formData.append("action", "delete");
+    formData.append("id", categoryId);
+    formData.append("cascade", "false");
+  
+    try {
+      const response = await axios.post(
+        "http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/category.php",
+        formData
+      );
+      
+      if ( response.data.success === false &&  response.data.message.includes("linked transactions")) {
+        const confirmCascade = window.confirm(
+          `${response.data.message} (${response.data.transaction_count} transactions). Do you want to delete them?`
+        );
+        if (confirmCascade) {
+          const cascadeFormData = new FormData();
+          cascadeFormData.append("action", "delete");
+          cascadeFormData.append("id", categoryId);
+          cascadeFormData.append("cascade", "true");
+  
+          const cascadeResponse = await axios.post(
+            "http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/category.php",
+            cascadeFormData
+          );
+
+          if (cascadeResponse.data.success) {
+            fetchCategories(); // Refresh categories
+          }
+        }
+      } 
+    } catch (error) {
+        console.error("Error deleting category:", error);
+        alert("Error deleting category");
+      }   
+  };
+  
 
   return (
     <div className="manage-categories-container">
@@ -32,7 +75,7 @@ function ManageCategories({ categories, setCategories}) {
             </div>
             <div className="category-buttons-container">
               <button className="edit-category-button">Edit</button>
-              <button className="delete-category-button">Delete</button>
+              <button className="delete-category-button" onClick={() => handleDeleteCategory(category.id)}>Delete</button>
             </div>
           </li>
         ))}

@@ -41,6 +41,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
       $categoryController->addCategory($name, $user_id, $type);
       echo json_encode(['success' => true, 'message' => 'Category added successfully', 'id' => $categoryController->getCategoryId($name, $user_id, $type)['id']]);
       break;
+    case 'delete':
+      $id = $_POST['id'];
+      $cascade = isset($_POST['cascade']) ? filter_var($_POST['cascade'], FILTER_VALIDATE_BOOLEAN) : false;
+      echo $cascade;
+      $categoryController->deleteCategory($id, $cascade);
+      echo json_encode(['success' => true, 'message' => 'Category deleted successfully']);
+      break;
   }
 }
 
