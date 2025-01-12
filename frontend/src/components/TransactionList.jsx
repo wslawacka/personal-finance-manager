@@ -112,7 +112,8 @@ function TransactionList({ transactions, categories, fetchTransactions, fetchCat
             {editingTransactionId === transaction.id ? (
               <>
                 <input
-                  type="text"
+                  type="number"
+                  min="0" 
                   value={editData.amount}
                   onChange={(e) =>
                     setEditData((prevData) => ({
@@ -166,7 +167,7 @@ function TransactionList({ transactions, categories, fetchTransactions, fetchCat
                 {isAddingNewCategory && (
                   <input
                     type="text"
-                    placeholder="New Category Name"
+                    placeholder="New category"
                     value={newCategory}
                     onChange={(e) => setNewCategory(e.target.value)}
                   />
@@ -181,8 +182,8 @@ function TransactionList({ transactions, categories, fetchTransactions, fetchCat
                     }))
                   }
                 />
-                <button onClick={handleSaveTransaction}>Save</button>
-                <button onClick={handleCancelEdit}>Cancel</button>
+                <button className="save-transaction-button" onClick={handleSaveTransaction}>Save</button>
+                <button className="cancel-transaction-button" onClick={handleCancelEdit}>Cancel</button>
               </>
             ) : (
               <>
@@ -197,8 +198,8 @@ function TransactionList({ transactions, categories, fetchTransactions, fetchCat
                   )?.name ?? "Unknown"}
                 </span>
                 <span className="transaction-property">{transaction.date}</span>
-                <button onClick={() => handleEditTransaction(transaction)}>Edit</button>
-                <button onClick={() => handleDeleteTransaction(transaction.id)}>Delete</button>
+                <button className="edit-transaction-button" onClick={() => handleEditTransaction(transaction)}>Edit</button>
+                <button className="delete-transaction-button" onClick={() => handleDeleteTransaction(transaction.id)}>Delete</button>
               </>
             )}
           </li>

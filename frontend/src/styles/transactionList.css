@@ -21,15 +21,20 @@
 }
 
 .transaction-item {
-  font-size: 1.1rem;
+  font-size: 18px;
   line-height: 2;
+  display: flex;
+  align-items: center;
 }
 
 .transaction-property {
   margin-right: 20px;
 }
 
-.delete-transaction-button {
+.delete-transaction-button,
+.save-transaction-button,
+.cancel-transaction-button,
+.edit-transaction-button {
   padding: 6px 12px;
   border: none;
   border-radius: 2px;
@@ -40,10 +45,38 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.delete-transaction-button:hover {
+.delete-transaction-button:hover,
+.save-transaction-button:hover,
+.cancel-transaction-button:hover,
+.edit-transaction-button:hover {
   background-color: #8a9db5;
 }
 
-.delete-transaction-button:active {
+.delete-transaction-button:active,
+.save-transaction-button:active,
+.cancel-transaction-button:active,
+.edit-transaction-button:active {
   background-color: #6a7d95;
+}
+
+.transaction-item > input,
+.transaction-item > select {
+  padding: 6px 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: rgba(0, 0, 0, 0.2) 1px solid;
+  cursor: text;
+  width: 180px;
+}
+
+.transaction-item > input:focus {
+  outline: none;
+}
+
+.transaction-item > select {
+  cursor: pointer;
+}
+
+.transaction-item > select:focus {
+  outline: none;
 }

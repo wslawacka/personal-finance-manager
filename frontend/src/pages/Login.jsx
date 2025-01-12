@@ -32,7 +32,7 @@ function Login({ setIsLoggedIn }) {
 
       // get the username from the response
       const username = response.data.username;
-
+      
       // store the username and user_id in the session storage
       sessionStorage.setItem('username', username);
       sessionStorage.setItem('user_id', response.data.user_id);

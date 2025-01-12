@@ -28,6 +28,8 @@ function UserFinances({ setIsLoggedIn, transactions, setTransactions, categories
       await axios.post("http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/user.php", formData);
       // set the isLoggedIn state to false
       setIsLoggedIn(false);
+      // delete the session storage
+      sessionStorage.clear();
       // navigate to the login page
       navigate('/login');
     } catch (error) {
@@ -94,7 +96,7 @@ function UserFinances({ setIsLoggedIn, transactions, setTransactions, categories
       <h1>Hello, {sessionStorage.getItem('username')}!</h1>
       {/* display the balance */}
       <p className="balance-label">Balance:</p>
-      <p className="total-balance">${totalBalance.toFixed(2)}</p>
+      <p className="total-balance">{totalBalance.toFixed(2)} &#8364;</p>
       {/* display the links to the expenses and income pages */}
       <div className='finances-links'>
         <Link className='finances-link' to="/expenses">Expenses</Link>

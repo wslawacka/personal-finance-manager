@@ -71,7 +71,7 @@ class UserController {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
        
-        return ['success' => true, 'message' => 'User logged in successfully', 'username' => $user['username']];
+        return ['success' => true, 'message' => 'User logged in successfully', 'username' => $user['username'], 'user_id' => $user['id']];
     } catch (PDOException $e) {
         return ['success' => false, 'message' => 'Failed to login user: ' . $e->getMessage()];
     }
@@ -81,14 +81,16 @@ class UserController {
     if (session_status() === PHP_SESSION_NONE) {
       session_start();
     }
+
+     // delete the session cookie
+     if (ini_get("session.use_cookies")) {
+      $params = session_get_cookie_params();
+      setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+    }
+
     session_unset();
     session_destroy();
 
-    // delete the session cookie
-    if (ini_get("session.use_cookies")) {
-        $params = session_get_cookie_params();
-        setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
-    }
     return ['success' => true, 'message' => 'User logged out successfully'];
   }
 

@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import TransactionList from '../components/TransactionList';
 
-import '../styles/income-expenses.css';
+import '../styles/incomeExpenses.css';
 
 function Expenses({ transactions, categories }) {
 
@@ -79,7 +79,7 @@ function Expenses({ transactions, categories }) {
       {/* display the list of transactions filtered by the time period */}
       <TransactionList transactions={filteredExpenses} categories={categories} />
       {/* display the total expenses for the filtered transactions */}
-      <h2 className='total'>Total Expenses: <span className='total-amount'>-{totalExpenses.toFixed(2)}</span></h2>
+      <h2 className='total'>Total Expenses: <span className='total-amount'>-{totalExpenses.toFixed(2)} &#8364;</span></h2>
     </div>
   )
 }
