@@ -40,7 +40,7 @@ function ManageCategories({ categories, setCategories}) {
     formData.append("type", editData.type);
 
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:80/dynamic-web-solutions/finance-manager/backend/routes/category.php",
         formData
       );
@@ -106,8 +106,10 @@ function ManageCategories({ categories, setCategories}) {
                   }))}
                   placeholder="Category name"
                 />
-                <button onClick={() => handleSaveCategory(category)}>Save</button>
-                <button onClick={() => setEditingCategoryId(null)}>Cancel</button>
+                <div className="category-buttons-container">
+                  <button className="save-category-button" onClick={() => handleSaveCategory(category)}>Save</button>
+                  <button className="cancel-category-button" onClick={() => setEditingCategoryId(null)}>Cancel</button>
+                </div>
               </>
             ) : (
               <>

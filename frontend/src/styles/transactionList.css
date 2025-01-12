@@ -3,7 +3,7 @@
   padding: 20px;
   border-radius: 2px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  min-width: 500px;
+  min-width: 660px;
 }
 
 .transaction-list-container > h2 {
@@ -35,7 +35,11 @@
 .delete-transaction-button,
 .save-transaction-button,
 .cancel-transaction-button,
-.edit-transaction-button {
+.edit-transaction-button,
+.delete-category-button,
+.edit-category-button,
+.save-category-button,
+.cancel-category-button {
   padding: 6px 12px;
   border: none;
   border-radius: 2px;
@@ -108,9 +112,8 @@
 }
 
 .transaction-details {
-  display: flex;
-  align-items: center;
-  height: 100%;
+  display: grid;
+  grid-template-columns: 110px 140px 140px 1fr;
 }
 
 .transaction-buttons {

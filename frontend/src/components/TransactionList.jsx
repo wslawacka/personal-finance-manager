@@ -202,8 +202,7 @@ function TransactionList({ transactions, categories, fetchTransactions, fetchCat
             ) : (
               <>
                 <div className="transaction-details">
-                {transaction.type === "income" ? <span>+</span> : <span>-</span>}
-                <span className="transaction-property">{transaction.amount}</span>
+                <span className="transaction-property">{transaction.type === "income" ? "+" : "-"}{transaction.amount}</span>
                 <span className="transaction-property">{transaction.description}</span>
                 <span className="transaction-property">
                   {categories.find(

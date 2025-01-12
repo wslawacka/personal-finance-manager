@@ -37,14 +37,6 @@
   gap: 10px;
 }
 
-.category-buttons-container > button {
-  padding: 6px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  border: none;
-}
-
 .category-buttons-container > button:hover {
   background-color: #a3b4d0;
 }
@@ -59,4 +51,16 @@
 
 .expense {
   color: #000000a7;
+}
+
+.categories-list > li > input {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 16px;
+  cursor: text;
+}
+
+.categories-list > li > input:focus {
+  outline: none;
 }
