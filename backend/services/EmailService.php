@@ -4,6 +4,10 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
+$dotenv->load();
 
 // send email after user registration
 class EmailService {
@@ -15,12 +19,12 @@ class EmailService {
 
   // configure mailer for gmail
   private function configureMailer() {
-    $this->mailer->setFrom('personalfinancemanager2@gmail.com','Personal Finance Manager');
+    $this->mailer->setFrom($_ENV['MAIL_USERNAME'], 'Personal Finance Manager');
     $this->mailer->isSMTP();
     $this->mailer->Host = 'smtp.gmail.com'; 
     $this->mailer->SMTPAuth = true;
-    $this->mailer->Username = 'personalfinancemanager2@gmail.com';
-    $this->mailer->Password = 'aldk uvkf iizu iaah';
+    $this->mailer->Username = $_ENV['MAIL_USERNAME'];
+    $this->mailer->Password = $_ENV['MAIL_PASSWORD'];
     $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $this->mailer->Port = 587;
   }
